@@ -8,6 +8,7 @@
     "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/index.ts",
     "build": "tsc",
+    "vercel-build": "tsc",
     "setup-db": "node setup-db-simple.js",
     "db:create": "ts-node src/config/createDatabase.ts",
     "db:drop": "ts-node src/config/dropDatabase.ts",
@@ -15,6 +16,7 @@
     "db:setup": "npm run setup-db"
   },
   "dependencies": {
+    "@vercel/node": "^3.0.0",
     "bcrypt": "^6.0.0",
     "class-validator": "^0.14.2",
     "cors": "^2.8.5",

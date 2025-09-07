@@ -10,7 +10,13 @@ import path from 'path';
 import dotenv from 'dotenv';
 
 // Load environment variables
-dotenv.config({ path: path.join(__dirname, '../config.env') });
+if (process.env.NODE_ENV === 'production') {
+  // In production (Vercel), use environment variables directly
+  dotenv.config();
+} else {
+  // In development, load from config.env file
+  dotenv.config({ path: path.join(__dirname, '../config.env') });
+}
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -34,7 +40,7 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// CORS configuration - allow multiple origins for development
+// CORS configuration - allow multiple origins for development and production
 const allowedOrigins = [
   'http://localhost:8080',  // Your current frontend port
   'http://localhost:5173',  // Vite default port
@@ -42,6 +48,7 @@ const allowedOrigins = [
   'http://127.0.0.1:8080', // Alternative localhost
   'http://127.0.0.1:5173', // Alternative localhost
   'http://127.0.0.1:3000', // Alternative localhost
+  'https://mathematico-frontend.vercel.app', // Vercel frontend URL
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
