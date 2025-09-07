@@ -1,8 +1,8 @@
 {
     "version": 2,
-    "buildCommand": "cd Frontend; npm install; npm run build",
+    "buildCommand": "npm run build",
     "outputDirectory": "Frontend/dist",
-    "installCommand": "cd Frontend; npm install",
+    "installCommand": "npm install --workspaces",
     "routes": [
       {
         "src": "/assets/(.*)",
@@ -20,3 +20,4 @@
       "VITE_ENABLE_DEBUG_MODE": "false"
     }
   }
+  
