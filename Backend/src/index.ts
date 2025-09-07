@@ -161,7 +161,7 @@ app.use('/uploads', (req, res, next) => {
 }, express.static(path.join(__dirname, '../uploads')));
 
 // Special route for PDF files to ensure proper headers
-app.get('/uploads/*.pdf', (req, res, next) => {
+app.get('/uploads/*.pdf', (_req, res, next) => {
   // Set headers specifically for PDF files
   res.header('Content-Type', 'application/pdf');
   res.header('Content-Disposition', 'inline');

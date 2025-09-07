@@ -6,7 +6,7 @@ import { requireEnrollment } from '../middleware/enrollment.middleware';
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, file, cb) => {
     console.log('📁 Multer destination called for:', file.fieldname);
     const uploadPath = 'uploads/';
     console.log('Upload path:', uploadPath);
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
     
     cb(null, uploadPath);
   },
-  filename: (req, file, cb) => {
+  filename: (_req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const filename = file.fieldname + '-' + uniqueSuffix + '-' + file.originalname;
     console.log('📝 Generated filename:', filename);
@@ -35,7 +35,7 @@ const upload = multer({
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB limit
   },
-  fileFilter: (req, file, cb) => {
+  fileFilter: (_req, file, cb) => {
     try {
       console.log('🔍 Multer fileFilter called for:', file.fieldname);
       console.log('File details:', {
@@ -59,13 +59,13 @@ const upload = multer({
       }
     } catch (error) {
       console.error('❌ Error in multer fileFilter:', error);
-      cb(error);
+      cb(error instanceof Error ? error : new Error('Unknown error'));
     }
   }
 }).single('thumbnailImage');
 
 // Error handling middleware for multer
-const handleMulterError = (error: any, req: any, res: any, next: any) => {
+const handleMulterError = (error: any, _req: any, res: any, _next: any) => {
   console.error('🚨 Multer error occurred:', error);
   console.error('Error details:', {
     name: error.name,
@@ -113,19 +113,7 @@ adminRouter.use(authenticate, isAdmin);
 
 adminRouter.get('/', LiveClassController.getAllLiveClasses);
 adminRouter.get('/:id', LiveClassController.getLiveClassByIdAdmin);
-adminRouter.post('/', (req, res, next) => {
-  console.log('🔍 Route middleware - Before multer');
-  console.log('Request method:', req.method);
-  console.log('Request URL:', req.url);
-  console.log('Request headers:', req.headers);
-  console.log('Request body:', req.body);
-  next();
-}, upload, (req, res, next) => {
-  console.log('🔍 Route middleware - After multer');
-  console.log('Request file:', req.file);
-  console.log('Request body after multer:', req.body);
-  next();
-}, handleMulterError, LiveClassController.createLiveClass);
+adminRouter.post('/', upload, handleMulterError, LiveClassController.createLiveClass);
 adminRouter.put('/:id', upload, handleMulterError, LiveClassController.updateLiveClass);
 adminRouter.delete('/:id', LiveClassController.deleteLiveClass);
 adminRouter.patch('/:id/publish', LiveClassController.togglePublishStatus);

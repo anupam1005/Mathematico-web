@@ -1,4 +1,14 @@
 // Simple validation functions for book and live class data
+import { Request, Response, NextFunction } from 'express';
+
+export function validateRequest(req: Request, res: Response, next: NextFunction): void {
+  // Basic request validation - can be extended as needed
+  if (!req.body) {
+    res.status(400).json({ error: 'Request body is required' });
+    return;
+  }
+  next();
+}
 
 export function validateBookData(bookData: any): string | null {
   if (!bookData.title || bookData.title.trim().length < 3) {

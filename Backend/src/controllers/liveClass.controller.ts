@@ -8,7 +8,7 @@ const liveClassRepository = AppDataSource.getRepository(LiveClass);
 
 export class LiveClassController {
   // Test endpoint to check database connection and table
-  static async testDatabaseConnection(req: Request, res: Response) {
+  static async testDatabaseConnection(_req: Request, res: Response) {
     try {
       console.log('🧪 Testing database connection...');
       
@@ -23,9 +23,9 @@ export class LiveClassController {
       
       // Check entity metadata
       try {
-        const metadata = AppDataSource.getMetadata(LiveClass);
+        AppDataSource.getMetadata(LiveClass);
         console.log('✅ Entity metadata accessible');
-      } catch (error) {
+      } catch (error: unknown) {
         console.error('❌ Entity metadata error:', error);
       }
       
@@ -34,9 +34,10 @@ export class LiveClassController {
         tableAccessible: true, 
         recordCount: count 
       }, 'Database connection test successful');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('❌ Database test error:', error);
-      return sendResponse(res, 500, null, `Database test failed: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      return sendResponse(res, 500, null, `Database test failed: ${errorMessage}`);
     }
   }
 
@@ -89,7 +90,7 @@ export class LiveClassController {
           totalPages
         }
       }, 'Live classes retrieved successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching published live classes:', error);
       return sendResponse(res, 500, null, 'Failed to fetch live classes');
     }
@@ -122,11 +123,13 @@ export class LiveClassController {
       }
 
       return sendResponse(res, 200, { liveClass }, 'Live class retrieved successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('❌ Error fetching live class:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const errorStack = error instanceof Error ? error.stack : undefined;
       console.error('❌ Error details:', {
-        message: error.message,
-        stack: error.stack
+        message: errorMessage,
+        stack: errorStack
       });
       return sendResponse(res, 500, null, 'Failed to fetch live class');
     }
@@ -174,7 +177,7 @@ export class LiveClassController {
           totalPages
         }
       }, 'Live classes retrieved successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching all live classes:', error);
       return sendResponse(res, 500, null, 'Failed to fetch live classes');
     }
@@ -195,7 +198,7 @@ export class LiveClassController {
       }
 
       return sendResponse(res, 200, { liveClass }, 'Live class retrieved successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching live class:', error);
       return sendResponse(res, 500, null, 'Failed to fetch live class');
     }
@@ -364,7 +367,7 @@ export class LiveClassController {
       const updatedLiveClass = await liveClassRepository.save(liveClass);
 
       return sendResponse(res, 200, { liveClass: updatedLiveClass }, 'Live class updated successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error updating live class:', error);
       return sendResponse(res, 500, null, 'Failed to update live class');
     }
@@ -383,7 +386,7 @@ export class LiveClassController {
       await liveClassRepository.remove(liveClass);
 
       return sendResponse(res, 200, null, 'Live class deleted successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error deleting live class:', error);
       return sendResponse(res, 500, null, 'Failed to delete live class');
     }
@@ -406,7 +409,7 @@ export class LiveClassController {
 
       const message = isPublished ? 'Live class published successfully' : 'Live class unpublished successfully';
       return sendResponse(res, 200, { liveClass: updatedLiveClass }, message);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error toggling live class publish status:', error);
       return sendResponse(res, 500, null, 'Failed to update live class status');
     }
@@ -434,7 +437,7 @@ export class LiveClassController {
       const updatedLiveClass = await liveClassRepository.save(liveClass);
 
       return sendResponse(res, 200, { liveClass: updatedLiveClass }, 'Live class started successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error starting live class:', error);
       return sendResponse(res, 500, null, 'Failed to start live class');
     }
@@ -462,14 +465,14 @@ export class LiveClassController {
       const updatedLiveClass = await liveClassRepository.save(liveClass);
 
       return sendResponse(res, 200, { liveClass: updatedLiveClass }, 'Live class ended successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error ending live class:', error);
       return sendResponse(res, 500, null, 'Failed to end live class');
     }
   }
 
   // Get live class statistics (admin only)
-  static async getLiveClassStats(req: Request, res: Response) {
+  static async getLiveClassStats(_req: Request, res: Response) {
     try {
       const totalLiveClasses = await liveClassRepository.count();
       const publishedLiveClasses = await liveClassRepository.count({ where: { isPublished: true } });
@@ -486,7 +489,7 @@ export class LiveClassController {
       };
 
       return sendResponse(res, 200, { stats }, 'Live class statistics retrieved successfully');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching live class statistics:', error);
       return sendResponse(res, 500, null, 'Failed to fetch live class statistics');
     }

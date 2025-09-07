@@ -6,7 +6,7 @@ import { authenticate, isAdmin } from '../middleware/auth.middleware';
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, file, cb) => {
     console.log('📁 Multer destination called for:', file.fieldname);
     const uploadPath = 'uploads/';
     console.log('Upload path:', uploadPath);
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
     
     cb(null, uploadPath);
   },
-  filename: (req, file, cb) => {
+  filename: (_req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const filename = file.fieldname + '-' + uniqueSuffix + '-' + file.originalname;
     console.log('📝 Generated filename:', filename);
@@ -35,7 +35,7 @@ const upload = multer({
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB limit
   },
-  fileFilter: (req, file, cb) => {
+  fileFilter: (_req, file, cb) => {
     console.log('🔍 Multer fileFilter called for:', file.fieldname);
     console.log('File details:', {
       fieldname: file.fieldname,
@@ -70,7 +70,7 @@ const upload = multer({
 const router = Router();
 
 // Error handling middleware for multer
-const handleMulterError = (error: any, req: Request, res: Response, next: NextFunction) => {
+const handleMulterError = (error: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error('🚨 Multer error occurred:', error);
   console.error('Error details:', {
     name: error.name,
@@ -112,32 +112,8 @@ router.get('/dashboard', adminController.getDashboardData);
 // Course Routes
 router.get('/courses', adminController.getAllCourses);
 router.get('/courses/:id', adminController.getCourseById);
-router.post('/courses', (req: Request, res: Response, next: NextFunction) => {
-  console.log('🔍 Route middleware - Before multer');
-  console.log('Request method:', req.method);
-  console.log('Request URL:', req.url);
-  console.log('Request headers:', req.headers);
-  console.log('Request body:', req.body);
-  next();
-}, upload.single('thumbnailImage'), (req: Request, res: Response, next: NextFunction) => {
-  console.log('🔍 Route middleware - After multer');
-  console.log('Request file:', req.file);
-  console.log('Request body after multer:', req.body);
-  next();
-}, handleMulterError, adminController.createCourse);
-router.put('/courses/:id', (req: Request, res: Response, next: NextFunction) => {
-  console.log('🔍 Route middleware - Before multer (UPDATE)');
-  console.log('Request method:', req.method);
-  console.log('Request URL:', req.url);
-  console.log('Request headers:', req.headers);
-  console.log('Request body:', req.body);
-  next();
-}, upload.single('thumbnailImage'), (req: Request, res: Response, next: NextFunction) => {
-  console.log('🔍 Route middleware - After multer (UPDATE)');
-  console.log('Request file:', req.file);
-  console.log('Request body after multer:', req.body);
-  next();
-}, handleMulterError, adminController.updateCourse);
+router.post('/courses', upload.single('thumbnailImage'), handleMulterError, adminController.createCourse);
+router.put('/courses/:id', upload.single('thumbnailImage'), handleMulterError, adminController.updateCourse);
 router.delete('/courses/:id', adminController.deleteCourse);
 router.patch('/courses/:id/publish', adminController.publishCourse);
 

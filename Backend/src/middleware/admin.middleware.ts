@@ -1,4 +1,3 @@
-import type { Request, Response, NextFunction } from 'express';
 import { isAdmin } from './auth.middleware';
 
 // Export the admin middleware function

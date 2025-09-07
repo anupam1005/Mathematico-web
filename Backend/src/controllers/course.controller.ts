@@ -3,8 +3,6 @@ import { Request, Response } from 'express';
 import { JwtPayload as TokenPayload } from '../utils/new-jwt';
 import { CourseRepository } from '../repositories/course.repository';
 import { User } from '../entities/User';
-import { AppDataSource } from '../config/data-source';
-import { Course } from '../entities/Course';
 
 export class CourseController {
   private courseRepository: CourseRepository;
