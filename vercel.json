@@ -36,8 +36,8 @@
       }
     ],
     "env": {
-      "VITE_API_URL": "https://your-backend-url.herokuapp.com/api/v1",
-      "VITE_BACKEND_URL": "https://your-backend-url.herokuapp.com",
+      "VITE_API_URL": "https://YOUR-ACTUAL-BACKEND-URL.herokuapp.com/api/v1",
+      "VITE_BACKEND_URL": "https://YOUR-ACTUAL-BACKEND-URL.herokuapp.com",
       "VITE_APP_NAME": "Mathematico",
       "VITE_ENABLE_DEBUG_MODE": "false"
     }
