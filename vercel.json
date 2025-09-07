@@ -1,29 +1,22 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "Frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist",
-        "buildCommand": "npm run vercel-build"
+    "version": 2,
+    "buildCommand": "cd Frontend; npm install; npm run build",
+    "outputDirectory": "Frontend/dist",
+    "installCommand": "cd Frontend; npm install",
+    "routes": [
+      {
+        "src": "/assets/(.*)",
+        "dest": "/assets/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/index.html"
       }
+    ],
+    "env": {
+      "VITE_API_URL": "https://your-backend-url.herokuapp.com/api/v1",
+      "VITE_BACKEND_URL": "https://your-backend-url.herokuapp.com",
+      "VITE_APP_NAME": "Mathematico",
+      "VITE_ENABLE_DEBUG_MODE": "false"
     }
-  ],
-  "routes": [
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ],
-  "env": {
-    "VITE_API_URL": "https://your-backend-url.herokuapp.com/api/v1",
-    "VITE_BACKEND_URL": "https://your-backend-url.herokuapp.com",
-    "VITE_APP_NAME": "Mathematico",
-    "VITE_ENABLE_DEBUG_MODE": "false"
   }
-}
