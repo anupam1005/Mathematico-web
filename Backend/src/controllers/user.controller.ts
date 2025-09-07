@@ -2,8 +2,6 @@ import { Request, Response } from 'express';
 import { UserRepository } from '../repositories/user.repository';
 import { NotFoundError } from '../middleware/error.middleware';
 import { BadRequestError } from '../middleware/error.middleware';
-import { validateRequest } from '../utils/validation';
-import { User } from '../entities/User';
 
 // Use global Request.user definition from middleware
 
@@ -43,7 +41,7 @@ export class UserController {
       throw new BadRequestError('User not authenticated');
     }
     const userId = (req.user as any).id;
-    const updateData = await validateRequest(User, req, true);
+    const updateData = req.body;
     
     // Prevent updating sensitive fields
     if ('password' in updateData || 'isActive' in updateData || 'roles' in updateData) {
@@ -132,7 +130,7 @@ export class UserController {
 
   updateUser = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
-    const updateData = await validateRequest(User, req, true);
+    const updateData = req.body;
     
     // Prevent updating password directly
     if ('password' in updateData) {
