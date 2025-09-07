@@ -16,7 +16,6 @@
     "db:setup": "npm run setup-db"
   },
   "dependencies": {
-    "@vercel/node": "^3.0.0",
     "bcrypt": "^6.0.0",
     "class-validator": "^0.14.2",
     "cors": "^2.8.5",
