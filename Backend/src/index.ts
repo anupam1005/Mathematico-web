@@ -244,17 +244,27 @@ const startServer = async () => {
   }
 };
 
+// For Vercel serverless functions
+if (process.env.VERCEL === '1') {
+  // Export the app for Vercel
+  module.exports = app;
+} else {
+  // Start the server normally for local development
+  startServer();
+}
+
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  process.exit(1);
+  if (process.env.VERCEL !== '1') {
+    process.exit(1);
+  }
 });
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (error) => {
   console.error('Uncaught Exception:', error);
-  process.exit(1);
+  if (process.env.VERCEL !== '1') {
+    process.exit(1);
+  }
 });
-
-// Start the server
-startServer();

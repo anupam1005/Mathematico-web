@@ -18,8 +18,18 @@ router.get('/health', (_req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    vercel: process.env.VERCEL === '1'
   }, 'Server is running');
+});
+
+// Simple test endpoint that doesn't require database
+router.get('/test', (_req, res) => {
+  sendResponse(res, StatusCodes.OK, {
+    message: 'Backend is working!',
+    timestamp: new Date().toISOString(),
+    vercel: process.env.VERCEL === '1'
+  }, 'Test endpoint working');
 });
 
 // Mount all routes
