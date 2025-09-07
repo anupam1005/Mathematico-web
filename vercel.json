@@ -1,8 +1,14 @@
 {
     "version": 2,
-    "buildCommand": "npm run build",
-    "outputDirectory": "Frontend/dist",
-    "installCommand": "npm install --workspaces",
+    "builds": [
+      {
+        "src": "Frontend/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "dist"
+        }
+      }
+    ],
     "routes": [
       {
         "src": "/assets/(.*)",
@@ -20,4 +26,3 @@
       "VITE_ENABLE_DEBUG_MODE": "false"
     }
   }
-  
