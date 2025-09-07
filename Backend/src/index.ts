@@ -218,9 +218,13 @@ process.on('SIGINT', () => {
 // Start server function
 const startServer = async () => {
   try {
-    // Initialize database connection
-    await AppDataSource.initialize();
-    console.log('✅ Database connection established');
+    // Initialize database connection only if not in Vercel
+    if (process.env.VERCEL !== '1') {
+      await AppDataSource.initialize();
+      console.log('✅ Database connection established');
+    } else {
+      console.log('⚠️  Running in Vercel - Database connection skipped');
+    }
 
     // Start the server
     app.listen(PORT, () => {
@@ -233,7 +237,10 @@ const startServer = async () => {
 
   } catch (error) {
     console.error('❌ Failed to start server:', error);
-    process.exit(1);
+    // Don't exit in Vercel, just log the error
+    if (process.env.VERCEL !== '1') {
+      process.exit(1);
+    }
   }
 };
 
