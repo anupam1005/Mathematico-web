@@ -17,11 +17,14 @@ async function testDatabaseConnection() {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     ssl: {
-      rejectUnauthorized: false
+      rejectUnauthorized: false, // Allow self-signed certificates
+      ca: undefined
     },
     connectTimeout: 60000,
     acquireTimeout: 60000,
-    timeout: 60000
+    timeout: 60000,
+    charset: 'utf8mb4',
+    timezone: 'Z'
   };
 
   try {

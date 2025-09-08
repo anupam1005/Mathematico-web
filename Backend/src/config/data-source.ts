@@ -56,10 +56,14 @@ export const AppDataSource = new DataSource({
     acquireTimeout: 60000, // 60 seconds
     timeout: 60000, // 60 seconds
     reconnect: true,
+    // MySQL 9.4.0 compatibility
+    charset: 'utf8mb4',
+    timezone: 'Z',
   },
   ...(isProduction && {
     ssl: {
-      rejectUnauthorized: false, // Railway MySQL requires SSL
+      rejectUnauthorized: false, // Railway MySQL requires SSL but uses self-signed cert
+      ca: undefined, // Allow self-signed certificates
     },
   }),
 });

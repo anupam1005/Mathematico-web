@@ -16,7 +16,8 @@
     "db:setup": "npm run setup-db",
     "db:test": "node test-db-connection.js",
     "db:railway": "node setup-railway-db.js",
-    "db:schema": "node setup-railway-schema.js"
+    "db:schema": "node setup-railway-schema.js",
+    "db:fix-mysql94": "node mysql-9.4-fix.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

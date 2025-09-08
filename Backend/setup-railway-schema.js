@@ -19,12 +19,15 @@ async function setupRailwaySchema() {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     ssl: {
-      rejectUnauthorized: false
+      rejectUnauthorized: false, // Allow self-signed certificates
+      ca: undefined
     },
     connectTimeout: 60000,
     acquireTimeout: 60000,
     timeout: 60000,
-    multipleStatements: true // Allow multiple SQL statements
+    multipleStatements: true, // Allow multiple SQL statements
+    charset: 'utf8mb4',
+    timezone: 'Z'
   };
 
   try {
