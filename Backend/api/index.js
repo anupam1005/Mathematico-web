@@ -150,6 +150,16 @@ app.get('/favicon.ico', (req, res) => {
   }
 });
 
+// Handle favicon.png requests as well
+app.get('/favicon.png', (req, res) => {
+  try {
+    res.status(204).end();
+  } catch (error) {
+    console.error('Favicon PNG error:', error);
+    res.status(500).end();
+  }
+});
+
 // 404 handler
 app.use('*', (req, res) => {
   try {
