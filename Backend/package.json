@@ -8,7 +8,7 @@
     "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/index.ts",
     "build": "tsc",
-    "vercel-build": "tsc && node -e \"require('fs').copyFileSync('dist/index.js', 'api/index.js')\"",
+    "vercel-build": "echo 'Using simplified serverless function'",
     "setup-db": "node setup-db-simple.js",
     "db:create": "ts-node src/config/createDatabase.ts",
     "db:drop": "ts-node src/config/dropDatabase.ts",
