@@ -3,16 +3,12 @@ import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// ✅ Load environment variables
-if (process.env.NODE_ENV === 'production' && process.env.VERCEL === '1') {
-  dotenv.config(); // Vercel injects env directly
-} else {
-  dotenv.config({ path: path.join(__dirname, '../../.env') }); // Local dev
-}
+// Load environment variables for CLI
+dotenv.config({ path: path.join(__dirname, '../../config.env') });
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-// ✅ Railway Database Connection
+// CLI-compatible DataSource for TypeORM commands
 export const AppDataSource = new DataSource({
   type: 'mysql',
   host: process.env.DB_HOST || 'localhost',
@@ -20,13 +16,15 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME || 'root',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_DATABASE || 'mathematico',
-  synchronize: false, // keep false in production
-  migrationsRun: true, // auto-run migrations
-  logging: !isProduction,
+  synchronize: false,
+  migrationsRun: false, // Don't auto-run migrations in CLI
+  logging: true, // Enable logging for CLI
   entities: [
     path.join(__dirname, '../entities/*{.ts,.js}'),
   ],
-  migrations: [path.join(__dirname, '../migrations/*{.ts,.js}')],
+  migrations: [
+    path.join(__dirname, '../migrations/*{.ts,.js}'),
+  ],
   subscribers: [],
   extra: {
     connectionLimit: 10,
@@ -37,7 +35,7 @@ export const AppDataSource = new DataSource({
   },
   ...(isProduction && {
     ssl: {
-      rejectUnauthorized: false, // Railway uses self-signed SSL
+      rejectUnauthorized: false,
     },
   }),
 });

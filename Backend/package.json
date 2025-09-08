@@ -17,7 +17,11 @@
     "db:test": "node test-db-connection.js",
     "db:railway": "node setup-railway-db.js",
     "db:schema": "node setup-railway-schema.js",
-    "db:fix-mysql94": "node mysql-9.4-fix.js"
+    "db:fix-mysql94": "node mysql-9.4-fix.js",
+    "db:setup-complete": "node setup-database-complete.js",
+    "db:setup-simple": "node setup-database-simple.js",
+    "db:migrate": "npx typeorm -d src/config/data-source-cli.ts migration:run",
+    "db:migrate:generate": "npx typeorm -d src/config/data-source-cli.ts migration:generate"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
