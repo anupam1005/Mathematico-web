@@ -2,25 +2,29 @@
   "version": 2,
   "builds": [
     {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "src/index.ts",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["src/**", "package.json", "tsconfig.json"]
+        "includeFiles": ["src/**", "package.json", "tsconfig.json", "config.env"]
       }
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "src/index.ts"
+      "dest": "api/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "src/index.ts"
+      "dest": "api/index.js"
     }
   ],
   "functions": {
-    "src/index.ts": {
+    "api/index.js": {
       "maxDuration": 30
     }
   },
@@ -39,6 +43,9 @@
     "ADMIN_EMAIL": "dc2006089@gmail.com",
     "ADMIN_PASSWORD": "Myname*321",
     "RAZORPAY_KEY_ID": "rzp_test_REPhtJhKrjuo5z",
-    "RAZORPAY_KEY_SECRET": "t1raXTc3z6pRiesvTnNnQCaF"
+    "RAZORPAY_KEY_SECRET": "t1raXTc3z6pRiesvTnNnQCaF",
+    "API_PREFIX": "/api/v1",
+    "DB_SYNC": "false",
+    "DB_LOGGING": "false"
   }
 }

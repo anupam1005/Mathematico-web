@@ -274,6 +274,11 @@ const startServer = async () => {
 
 // For Vercel serverless functions
 if (process.env.VERCEL === '1') {
+  // Initialize database connection for Vercel
+  initializeDatabase().catch(error => {
+    console.error('Database initialization failed in Vercel:', error);
+  });
+  
   // Export the app for Vercel
   module.exports = app;
 } else {
