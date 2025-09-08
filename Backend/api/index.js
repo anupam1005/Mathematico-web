@@ -45,9 +45,21 @@ app.use(express.static('public'));
 
 // CORS middleware
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin;
+  const allowedOrigins = [
+    'https://mathematico-frontend.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:5173'
+  ];
+  
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Max-Age', '86400');
   
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -109,7 +121,11 @@ app.get('/api/v1', (req, res) => {
       vercel: process.env.VERCEL === '1',
       endpoints: {
         health: '/api/v1/health',
-        api: '/api/v1'
+        auth: '/api/v1/auth',
+        books: '/api/v1/books',
+        courses: '/api/v1/courses',
+        liveClasses: '/api/v1/live-classes',
+        admin: '/api/v1/admin'
       }
     });
   } catch (error) {
@@ -117,6 +133,117 @@ app.get('/api/v1', (req, res) => {
     res.status(500).json({
       error: 'Internal Server Error',
       message: 'API info failed',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Auth endpoints
+app.post('/api/v1/auth/login', (req, res) => {
+  try {
+    console.log('Login attempt:', req.body);
+    console.log('Request headers:', req.headers);
+    
+    // Parse JSON body if it's a string
+    let body = req.body;
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        return res.status(400).json({
+          error: 'Bad Request',
+          message: 'Invalid JSON in request body',
+          timestamp: new Date().toISOString()
+        });
+      }
+    }
+    
+    const { email, password } = body;
+    
+    // Basic validation
+    if (!email || !password) {
+      return res.status(400).json({
+        error: 'Bad Request',
+        message: 'Email and password are required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    // Check if it's the admin user
+    if (email === 'dc2006089@gmail.com' && password === 'Myname*321') {
+      // Generate a simple token (in production, use proper JWT)
+      const token = Buffer.from(`${email}:${Date.now()}`).toString('base64');
+      
+      res.json({
+        success: true,
+        message: 'Login successful',
+        user: {
+          id: 1,
+          email: email,
+          role: 'admin',
+          name: 'Admin User'
+        },
+        token: token,
+        timestamp: new Date().toISOString()
+      });
+    } else {
+      res.status(401).json({
+        error: 'Unauthorized',
+        message: 'Invalid email or password',
+        timestamp: new Date().toISOString()
+      });
+    }
+  } catch (error) {
+    console.error('Login endpoint error:', error);
+    res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Login failed',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Auth status endpoint
+app.get('/api/v1/auth/status', (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    
+    if (!token) {
+      return res.status(401).json({
+        error: 'Unauthorized',
+        message: 'No token provided',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    // Simple token validation (in production, use proper JWT validation)
+    try {
+      const decoded = Buffer.from(token, 'base64').toString('utf-8');
+      const [email] = decoded.split(':');
+      
+      res.json({
+        success: true,
+        user: {
+          id: 1,
+          email: email,
+          role: 'admin',
+          name: 'Admin User'
+        },
+        timestamp: new Date().toISOString()
+      });
+    } catch (decodeError) {
+      res.status(401).json({
+        error: 'Unauthorized',
+        message: 'Invalid token',
+        timestamp: new Date().toISOString()
+      });
+    }
+  } catch (error) {
+    console.error('Auth status endpoint error:', error);
+    res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Auth status check failed',
       timestamp: new Date().toISOString()
     });
   }
