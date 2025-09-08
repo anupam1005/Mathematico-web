@@ -1,7 +1,8 @@
 {
   "version": 2,
+  "buildCommand": "npm run vercel-build",
   "functions": {
-    "api/index.js": {
+    "dist/index.js": {
       "maxDuration": 30,
       "memory": 1024
     },
@@ -25,7 +26,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/api/index.js"
+      "dest": "/dist/index.js"
     }
   ],
   "env": {
