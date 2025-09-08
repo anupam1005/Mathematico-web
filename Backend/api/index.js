@@ -447,6 +447,260 @@ app.get('/api/v1/live-classes', (req, res) => {
   });
 });
 
+// Enrollment endpoints
+app.get('/api/v1/enrollments/status', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      enrolled: false,
+      status: 'not_enrolled'
+    },
+    message: 'Enrollment status endpoint',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Admin endpoints
+app.get('/api/v1/admin/dashboard', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      totalUsers: 1,
+      totalCourses: 0,
+      totalBooks: 0,
+      totalLiveClasses: 0,
+      totalEnrollments: 0,
+      recentActivity: [],
+      stats: {
+        users: { total: 1, active: 1, inactive: 0 },
+        courses: { total: 0, published: 0, draft: 0 },
+        books: { total: 0, published: 0, draft: 0 },
+        liveClasses: { total: 0, upcoming: 0, completed: 0 }
+      }
+    },
+    message: 'Dashboard stats retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/admin/courses', (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+  res.json({
+    success: true,
+    data: [],
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total: 0,
+      totalPages: 0
+    },
+    message: 'Admin courses retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/admin/books', (req, res) => {
+  const { page = 1, limit = 100, status = 'all', category = 'all' } = req.query;
+  res.json({
+    success: true,
+    data: [],
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total: 0,
+      totalPages: 0
+    },
+    message: 'Admin books retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/admin/users', (req, res) => {
+  res.json({
+    success: true,
+    data: [
+      {
+        id: 1,
+        name: 'Admin User',
+        email: 'dc2006089@gmail.com',
+        role: 'admin',
+        isAdmin: true,
+        status: 'active',
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString()
+      }
+    ],
+    pagination: {
+      page: 1,
+      limit: 10,
+      total: 1,
+      totalPages: 1
+    },
+    message: 'Admin users retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/admin/live-classes', (req, res) => {
+  const { page = 1, limit = 100 } = req.query;
+  res.json({
+    success: true,
+    data: [],
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total: 0,
+      totalPages: 0
+    },
+    message: 'Admin live classes retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/admin/settings', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      siteName: 'Mathematico',
+      siteDescription: 'A Mathematics Learning Platform',
+      contactEmail: 'dc2006089@gmail.com',
+      maintenanceMode: false,
+      registrationEnabled: true,
+      emailNotifications: true,
+      maxFileSize: '10MB',
+      allowedFileTypes: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'],
+      theme: {
+        primaryColor: '#3b82f6',
+        secondaryColor: '#64748b',
+        accentColor: '#f59e0b'
+      }
+    },
+    message: 'Admin settings retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Admin POST endpoints for creating resources
+app.post('/api/v1/admin/courses', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      id: Math.floor(Math.random() * 1000) + 1,
+      ...req.body,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    },
+    message: 'Course created successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.post('/api/v1/admin/books', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      id: Math.floor(Math.random() * 1000) + 1,
+      ...req.body,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    },
+    message: 'Book created successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.post('/api/v1/admin/live-classes', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      id: Math.floor(Math.random() * 1000) + 1,
+      ...req.body,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    },
+    message: 'Live class created successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Admin PUT endpoints for updating resources
+app.put('/api/v1/admin/courses/:id', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      id: req.params.id,
+      ...req.body,
+      updatedAt: new Date().toISOString()
+    },
+    message: 'Course updated successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.put('/api/v1/admin/books/:id', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      id: req.params.id,
+      ...req.body,
+      updatedAt: new Date().toISOString()
+    },
+    message: 'Book updated successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.put('/api/v1/admin/live-classes/:id', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      id: req.params.id,
+      ...req.body,
+      updatedAt: new Date().toISOString()
+    },
+    message: 'Live class updated successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Admin DELETE endpoints
+app.delete('/api/v1/admin/courses/:id', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Course deleted successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.delete('/api/v1/admin/books/:id', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Book deleted successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.delete('/api/v1/admin/live-classes/:id', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Live class deleted successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Admin settings update
+app.put('/api/v1/admin/settings', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      ...req.body,
+      updatedAt: new Date().toISOString()
+    },
+    message: 'Settings updated successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Static asset handling with CORS
 app.get('/logo.png', (req, res) => {
   const origin = req.headers.origin;
