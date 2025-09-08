@@ -1,5 +1,5 @@
 // Vercel serverless function entry point
-// Simple, robust implementation
+// Minimal implementation without any external dependencies
 
 // Basic error handling
 process.on('uncaughtException', (error) => {
@@ -18,14 +18,10 @@ try {
   console.error('Express not available:', error);
   // Return a simple function if express fails
   module.exports = (req, res) => {
-    res.status(200).json({
-      message: 'Mathematico API Server',
-      version: '1.0.0',
-      status: 'running',
-      timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV || 'production',
-      vercel: process.env.VERCEL === '1',
-      note: 'Running in minimal mode'
+    res.status(500).json({
+      error: 'Server Error',
+      message: 'Express not available',
+      timestamp: new Date().toISOString()
     });
   };
   return;
@@ -34,85 +30,22 @@ try {
 // Create Express app
 const app = express();
 
-// Basic middleware with error handling
-try {
-  app.use(express.json({ limit: '1mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '1mb' }));
-} catch (error) {
-  console.error('Middleware setup error:', error);
-}
+// Basic middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // CORS middleware
 app.use((req, res, next) => {
-  try {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    
-    if (req.method === 'OPTIONS') {
-      res.status(200).end();
-      return;
-    }
-    
-    next();
-  } catch (error) {
-    console.error('CORS error:', error);
-    next();
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
   }
-});
-
-// Health check endpoint
-app.get('/api/v1/health', (req, res) => {
-  try {
-    res.json({
-      status: 'healthy',
-      timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV || 'production',
-      vercel: process.env.VERCEL === '1',
-      database: {
-        host: process.env.DB_HOST || 'not configured',
-        database: process.env.DB_DATABASE || 'not configured',
-        connected: false
-      },
-      version: '1.0.0'
-    });
-  } catch (error) {
-    console.error('Health endpoint error:', error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Health check failed',
-      timestamp: new Date().toISOString()
-    });
-  }
-});
-
-// API info endpoint
-app.get('/api/v1', (req, res) => {
-  try {
-    res.json({
-      message: 'Mathematico API Server',
-      version: '1.0.0',
-      status: 'running',
-      timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV || 'production',
-      vercel: process.env.VERCEL === '1',
-      endpoints: {
-        health: '/api/v1/health',
-        auth: '/api/v1/auth',
-        books: '/api/v1/books',
-        courses: '/api/v1/courses',
-        liveClasses: '/api/v1/live-classes',
-        admin: '/api/v1/admin'
-      }
-    });
-  } catch (error) {
-    console.error('API info endpoint error:', error);
-    res.status(500).json({
-      error: 'Internal Server Error',
-      message: 'API info endpoint failed',
-      timestamp: new Date().toISOString()
-    });
-  }
+  
+  next();
 });
 
 // Root endpoint
@@ -123,7 +56,47 @@ app.get('/', (req, res) => {
       version: '1.0.0',
       status: 'running',
       timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV || 'production',
+      environment: process.env.NODE_ENV || 'development',
+      vercel: process.env.VERCEL === '1'
+    });
+  } catch (error) {
+    console.error('Root endpoint error:', error);
+    res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'An unexpected error occurred',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Health endpoint
+app.get('/api/v1/health', (req, res) => {
+  try {
+    res.json({
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development',
+      vercel: process.env.VERCEL === '1'
+    });
+  } catch (error) {
+    console.error('Health endpoint error:', error);
+    res.status(500).json({
+      error: 'Internal Server Error',
+      message: 'Health check failed',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// API info endpoint
+app.get('/api/v1', (req, res) => {
+  try {
+    res.json({
+      message: 'Mathematico API v1',
+      version: '1.0.0',
+      status: 'running',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development',
       vercel: process.env.VERCEL === '1',
       endpoints: {
         health: '/api/v1/health',
@@ -131,68 +104,42 @@ app.get('/', (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Root endpoint error:', error);
+    console.error('API info endpoint error:', error);
     res.status(500).json({
       error: 'Internal Server Error',
-      message: 'Root endpoint failed',
+      message: 'API info failed',
       timestamp: new Date().toISOString()
     });
   }
 });
 
-// Favicon handler
+// Favicon handlers - return 204 No Content
 app.get('/favicon.ico', (req, res) => {
-  try {
-    res.status(204).end();
-  } catch (error) {
-    console.error('Favicon error:', error);
-    res.status(500).end();
-  }
+  res.status(204).end();
 });
 
-// Handle favicon.png requests as well
 app.get('/favicon.png', (req, res) => {
-  try {
-    res.status(204).end();
-  } catch (error) {
-    console.error('Favicon PNG error:', error);
-    res.status(500).end();
-  }
+  res.status(204).end();
 });
 
 // 404 handler
 app.use('*', (req, res) => {
-  try {
-    res.status(404).json({
-      error: 'Not Found',
-      message: 'The requested resource was not found',
-      path: req.originalUrl || req.url,
-      timestamp: new Date().toISOString()
-    });
-  } catch (error) {
-    console.error('404 handler error:', error);
-    res.status(500).json({
-      error: 'Internal Server Error',
-      message: 'Error handling request',
-      timestamp: new Date().toISOString()
-    });
-  }
+  res.status(404).json({
+    error: 'Not Found',
+    message: `Route ${req.originalUrl} not found`,
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Global error handler
 app.use((error, req, res, next) => {
   console.error('Global error handler:', error);
-  try {
-    res.status(500).json({
-      error: 'Internal Server Error',
-      message: 'An unexpected error occurred',
-      timestamp: new Date().toISOString()
-    });
-  } catch (err) {
-    console.error('Error in error handler:', err);
-    res.status(500).end();
-  }
+  res.status(500).json({
+    error: 'Internal Server Error',
+    message: 'An unexpected error occurred',
+    timestamp: new Date().toISOString()
+  });
 });
 
-// Export for Vercel
+// Export the app for Vercel
 module.exports = app;

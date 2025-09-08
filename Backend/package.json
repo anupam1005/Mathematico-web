@@ -23,7 +23,9 @@
     "db:migrate": "npx typeorm -d src/config/data-source-cli.ts migration:run",
     "db:migrate:generate": "npx typeorm -d src/config/data-source-cli.ts migration:generate",
     "test:api": "node test-api.js",
-    "test:serverless": "node test-serverless.js"
+    "test:serverless": "node test-serverless.js",
+    "test:favicon": "node test-favicon.js",
+    "test:all": "node test-all.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
