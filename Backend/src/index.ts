@@ -49,6 +49,8 @@ const allowedOrigins = [
   'http://127.0.0.1:5173', // Alternative localhost
   'http://127.0.0.1:3000', // Alternative localhost
   'https://mathematico-frontend.vercel.app', // Vercel frontend URL
+  'https://mathematico-frontend-gvpmf2rwj-anupam-das-projects-db63fa41.vercel.app', // Vercel preview URL
+  'https://*.vercel.app', // Allow all Vercel preview URLs
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
@@ -58,7 +60,18 @@ console.log('🌐 CORS configuration loaded with preflightContinue: false');
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    // Check if origin is in allowed origins
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    // Allow Vercel preview URLs (pattern: https://project-name-hash-username.vercel.app)
+    if (origin.match(/^https:\/\/.*\.vercel\.app$/)) {
+      console.log('✅ CORS allowing Vercel preview URL:', origin);
       return callback(null, true);
     }
     
@@ -103,7 +116,7 @@ app.use((req, res, next) => {
     });
   }
   
-  if (origin && allowedOrigins.includes(origin)) {
+  if (origin && (allowedOrigins.includes(origin) || origin.match(/^https:\/\/.*\.vercel\.app$/))) {
     res.header('Access-Control-Allow-Origin', origin);
   }
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -131,7 +144,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use('/uploads', (req, res, next) => {
   // Apply CORS headers to static file requests
   const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
+  if (origin && (allowedOrigins.includes(origin) || origin.match(/^https:\/\/.*\.vercel\.app$/))) {
     res.header('Access-Control-Allow-Origin', origin);
   }
   res.header('Access-Control-Allow-Credentials', 'true');
