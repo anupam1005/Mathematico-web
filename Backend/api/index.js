@@ -76,7 +76,7 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.json({
     message: 'Mathematico API Server',
-    version: '1.0.0',
+    version: '1.1.0',
     status: 'running',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
@@ -87,7 +87,8 @@ app.get('/', (req, res) => {
       books: '/api/v1/books',
       courses: '/api/v1/courses',
       liveClasses: '/api/v1/live-classes',
-      admin: '/api/v1/admin'
+      admin: '/api/v1/admin',
+      enrollments: '/api/v1/enrollments'
     }
   });
 });
