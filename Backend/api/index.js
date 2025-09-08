@@ -40,6 +40,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// Static file serving for public directory
+app.use(express.static('public'));
+
 // CORS middleware
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -119,28 +122,24 @@ app.get('/api/v1', (req, res) => {
   }
 });
 
-// Favicon handlers - return 204 No Content
-app.get('/favicon.ico', (req, res) => {
-  console.log('Favicon.ico requested');
+// Comprehensive favicon handling
+const handleFavicon = (req, res) => {
+  console.log(`Favicon requested: ${req.url}`);
   res.status(204).end();
-});
+};
 
-app.get('/favicon.png', (req, res) => {
-  console.log('Favicon.png requested');
-  res.status(204).end();
-});
+// All possible favicon routes
+app.get('/favicon.ico', handleFavicon);
+app.get('/favicon.png', handleFavicon);
+app.get('/favicon', handleFavicon);
+app.get('/favicon.gif', handleFavicon);
+app.get('/favicon.jpg', handleFavicon);
+app.get('/favicon.jpeg', handleFavicon);
+app.get('/favicon.svg', handleFavicon);
+app.get('/favicon.webp', handleFavicon);
 
-// Additional favicon variations
-app.get('/favicon', (req, res) => {
-  console.log('Favicon (no extension) requested');
-  res.status(204).end();
-});
-
-// Handle any favicon-related requests
-app.get(/^\/favicon.*/, (req, res) => {
-  console.log('Favicon pattern matched:', req.url);
-  res.status(204).end();
-});
+// Catch-all favicon pattern
+app.get(/^\/favicon.*/, handleFavicon);
 
 // 404 handler
 app.use('*', (req, res) => {

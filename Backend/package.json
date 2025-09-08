@@ -25,6 +25,9 @@
     "test:api": "node test-api.js",
     "test:serverless": "node test-serverless.js",
     "test:favicon": "node test-favicon.js",
+    "test:favicon-comprehensive": "node test-favicon-comprehensive.js",
+    "test:favicon-dedicated": "node test-favicon-dedicated.js",
+    "test:vercel-config": "node test-vercel-config.js",
     "test:all": "node test-all.js"
   },
   "dependencies": {

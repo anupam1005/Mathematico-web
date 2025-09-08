@@ -4,8 +4,30 @@
     "api/index.js": {
       "maxDuration": 30,
       "memory": 1024
+    },
+    "api/favicon.js": {
+      "maxDuration": 10,
+      "memory": 128
     }
   },
+  "routes": [
+    {
+      "src": "/favicon.ico",
+      "dest": "/api/favicon.js"
+    },
+    {
+      "src": "/favicon.png",
+      "dest": "/api/favicon.js"
+    },
+    {
+      "src": "/favicon",
+      "dest": "/api/favicon.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.js"
+    }
+  ],
   "env": {
     "NODE_ENV": "production",
     "VERCEL": "1",
