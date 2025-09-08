@@ -34,6 +34,12 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url} - ${new Date().toISOString()}`);
+  next();
+});
+
 // CORS middleware
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -115,10 +121,24 @@ app.get('/api/v1', (req, res) => {
 
 // Favicon handlers - return 204 No Content
 app.get('/favicon.ico', (req, res) => {
+  console.log('Favicon.ico requested');
   res.status(204).end();
 });
 
 app.get('/favicon.png', (req, res) => {
+  console.log('Favicon.png requested');
+  res.status(204).end();
+});
+
+// Additional favicon variations
+app.get('/favicon', (req, res) => {
+  console.log('Favicon (no extension) requested');
+  res.status(204).end();
+});
+
+// Handle any favicon-related requests
+app.get(/^\/favicon.*/, (req, res) => {
+  console.log('Favicon pattern matched:', req.url);
   res.status(204).end();
 });
 
