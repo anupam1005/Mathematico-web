@@ -21,8 +21,6 @@ async function testDatabaseConnection() {
       ca: undefined
     },
     connectTimeout: 60000,
-    acquireTimeout: 60000,
-    timeout: 60000,
     charset: 'utf8mb4',
     timezone: 'Z'
   };
@@ -34,7 +32,7 @@ async function testDatabaseConnection() {
     console.log('✅ Database connection successful!');
     
     // Test a simple query
-    const [rows] = await connection.execute('SELECT 1 as test, NOW() as current_time');
+    const [rows] = await connection.execute('SELECT 1 as test, NOW() as currentTime');
     console.log('✅ Test query successful:', rows[0]);
     
     // Check database version
