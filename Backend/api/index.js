@@ -59,6 +59,9 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
+// Static file serving for public directory
+app.use(express.static('public'));
+
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -441,6 +444,37 @@ app.get('/api/v1/live-classes', (req, res) => {
     data: [],
     message: 'Live classes endpoint - not implemented yet',
     timestamp: new Date().toISOString()
+  });
+});
+
+// Static asset handling with CORS
+app.get('/logo.png', (req, res) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin) || (origin && origin.match(/^https:\/\/.*\.vercel\.app$/))) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+  res.sendFile('logo.png', { root: 'public' }, (err) => {
+    if (err) {
+      console.error('Error serving logo.png:', err);
+      res.status(404).json({ error: 'Logo not found' });
+    }
+  });
+});
+
+app.get('/placeholder.svg', (req, res) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin) || (origin && origin.match(/^https:\/\/.*\.vercel\.app$/))) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+  res.sendFile('placeholder.svg', { root: 'public' }, (err) => {
+    if (err) {
+      console.error('Error serving placeholder.svg:', err);
+      res.status(404).json({ error: 'Placeholder not found' });
+    }
   });
 });
 
