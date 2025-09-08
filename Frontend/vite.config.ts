@@ -36,8 +36,8 @@ export default defineConfig({
   },
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version || '1.0.0'),
-    'import.meta.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL || 'https://mathematico-backend.vercel.app/api/v1'),
-    'import.meta.env.VITE_BACKEND_URL': JSON.stringify(process.env.VITE_BACKEND_URL || 'https://mathematico-backend.vercel.app'),
+    'import.meta.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL || 'https://mathematico-backend-new.vercel.app/api/v1'),
+    'import.meta.env.VITE_BACKEND_URL': JSON.stringify(process.env.VITE_BACKEND_URL || 'https://mathematico-backend-new.vercel.app'),
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom']

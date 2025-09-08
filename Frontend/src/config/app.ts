@@ -13,7 +13,7 @@ export const APP_CONFIG = {
 
 // API configuration
 export const API_CONFIG = {
-  BASE_URL: import.meta.env.VITE_API_URL || 'https://mathematico-backend.vercel.app/api/v1',
+  BASE_URL: import.meta.env.VITE_API_URL || 'https://mathematico-backend-new.vercel.app/api/v1',
   TIMEOUT: parseInt(import.meta.env.VITE_API_TIMEOUT || '10000', 10),
   WITH_CREDENTIALS: true,
 };

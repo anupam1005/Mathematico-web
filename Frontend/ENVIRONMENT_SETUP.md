@@ -25,7 +25,7 @@ This guide explains how to properly configure environment variables for the Math
 ```env
 # Base API URL for all requests
 VITE_API_URL=http://localhost:5000/api/v1  # Development
-VITE_API_URL=https://mathematico-backend.vercel.app/api/v1  # Production
+VITE_API_URL=https://mathematico-backend-new.vercel.app/api/v1  # Production
 
 # Request timeout in milliseconds
 VITE_API_TIMEOUT=10000  # Development (10s)
@@ -62,7 +62,7 @@ VITE_ENABLE_DEBUG_MODE=false  # Production
 ```env
 # Backend base URL (without /api/v1)
 VITE_BACKEND_URL=http://localhost:5000  # Development
-VITE_BACKEND_URL=https://mathematico-backend.vercel.app  # Production
+VITE_BACKEND_URL=https://mathematico-backend-new.vercel.app  # Production
 
 # Health check endpoint
 VITE_BACKEND_HEALTH_CHECK=/api/v1/health

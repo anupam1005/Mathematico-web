@@ -257,7 +257,7 @@ const startServer = async () => {
     // Start the server
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on port ${PORT}`);
-      console.log(`📚 API Documentation: https://mathematico-backend.vercel.app/api/v1/health`);
+      console.log(`📚 API Documentation: https://mathematico-backend-new.vercel.app/api/v1/health`);
       console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL || 'https://mathematico-frontend.vercel.app'}`);
       console.log(`🗄️  Database: ${process.env.DB_DATABASE || 'railway'}`);
       console.log(`👤 Admin Email: ${process.env.ADMIN_EMAIL || 'dc2006089@gmail.com'}`);

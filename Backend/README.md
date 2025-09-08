@@ -121,8 +121,8 @@ RATE_LIMIT_MAX=100
 ## API Documentation
 
 Once the server is running, you can access:
-- API Documentation: `http://localhost:5000/api-docs` (or https://mathematico-backend.vercel.app/api-docs for production)
-- Health Check: `http://localhost:5000/api/health` (or https://mathematico-backend.vercel.app/api/health for production)
+- API Documentation: `http://localhost:5000/api-docs` (or https://mathematico-backend-new.vercel.app/api-docs for production)
+- Health Check: `http://localhost:5000/api/health` (or https://mathematico-backend-new.vercel.app/api/health for production)
 
 ## Testing
 

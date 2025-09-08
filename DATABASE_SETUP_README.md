@@ -103,7 +103,7 @@ cd Backend
 npm run dev
 ```
 
-The server should start on `http://localhost:5000` (or visit https://mathematico-backend.vercel.app/ for production)
+The server should start on `http://localhost:5000` (or visit https://mathematico-backend-new.vercel.app/ for production)
 
 ### Step 2: Start Frontend
 

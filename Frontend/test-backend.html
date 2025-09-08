@@ -17,7 +17,7 @@
             
             try {
                 // Test health endpoint
-                const healthResponse = await fetch('https://mathematico-backend.vercel.app/api/v1/health');
+                const healthResponse = await fetch('https://mathematico-backend-new.vercel.app/api/v1/health');
                 const healthData = await healthResponse.json();
                 
                 resultDiv.innerHTML = `
@@ -28,7 +28,7 @@
                 
                 // Test admin endpoint (should return 401 if not authenticated)
                 try {
-                    const adminResponse = await fetch('https://mathematico-backend.vercel.app/api/v1/admin/books');
+                    const adminResponse = await fetch('https://mathematico-backend-new.vercel.app/api/v1/admin/books');
                     resultDiv.innerHTML += `
                         <h3>Admin Books Endpoint:</h3>
                         <p>Status: ${adminResponse.status}</p>

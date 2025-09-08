@@ -91,7 +91,7 @@ npm run dev
 ```
 ✅ Database connection established
 🚀 Server is running on port 5000
-📚 API Documentation: http://localhost:5000/api/v1/health (or https://mathematico-backend.vercel.app/api/v1/health for production)
+📚 API Documentation: http://localhost:5000/api/v1/health (or https://mathematico-backend-new.vercel.app/api/v1/health for production)
 🌐 Frontend URL: http://localhost:8080
 🗄️  Database: mathematico
 👤 Admin Email: dc2006089@gmail.com
@@ -196,7 +196,7 @@ Open your browser and navigate to:
 ```
 http://localhost:5000/api/v1/health
 ```
-Or for production: `https://mathematico-backend.vercel.app/api/v1/health`
+Or for production: `https://mathematico-backend-new.vercel.app/api/v1/health`
 
 **Expected Response:**
 ```json
