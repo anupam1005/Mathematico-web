@@ -103,7 +103,7 @@ cd Backend
 npm run dev
 ```
 
-The server should start on `http://localhost:5000`
+The server should start on `http://localhost:5000` (or visit https://mathematico-backend.vercel.app/ for production)
 
 ### Step 2: Start Frontend
 
@@ -112,15 +112,15 @@ cd Frontend
 npm run dev
 ```
 
-The frontend should start on `http://localhost:3000`
+The frontend should start on `http://localhost:3000` (or visit https://mathematico-frontend.vercel.app/ for production)
 
 ## 🔐 Admin Login
 
-1. Navigate to `http://localhost:3000/login`
+1. Navigate to `http://localhost:3000/login` (or https://mathematico-frontend.vercel.app/login for production)
 2. Use the admin credentials:
    - **Email**: `dc2006089@gmail.com`
    - **Password**: `Myname*321`
-3. After login, navigate to `http://localhost:3000/admin/courses`
+3. After login, navigate to `http://localhost:3000/admin/courses` (or https://mathematico-frontend.vercel.app/admin/courses for production)
 
 ## 🧪 Testing the Course Section
 

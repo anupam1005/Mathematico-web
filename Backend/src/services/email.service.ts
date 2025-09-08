@@ -69,7 +69,7 @@ class EmailService {
   }
 
   async sendPasswordResetEmail(email: string, resetToken: string): Promise<boolean> {
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
+    const resetUrl = `${process.env.FRONTEND_URL || 'https://mathematico-frontend.vercel.app'}/reset-password/${resetToken}`;
     
     const html = `
       <!DOCTYPE html>
@@ -271,7 +271,7 @@ class EmailService {
             </ul>
             
             <div style="text-align: center;">
-              <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}" class="button">Start Learning</a>
+              <a href="${process.env.FRONTEND_URL || 'https://mathematico-frontend.vercel.app'}" class="button">Start Learning</a>
             </div>
           </div>
           

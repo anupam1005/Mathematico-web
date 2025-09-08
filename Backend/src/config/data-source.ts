@@ -14,7 +14,7 @@ import { LiveClass } from '../entities/LiveClass';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Load environment variables from config.env
+// Load environment variables from config.env (local dev)
 dotenv.config({ path: path.join(__dirname, '../../config.env') });
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -25,11 +25,11 @@ export const AppDataSource = new DataSource({
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT || '3306'),
   username: process.env.DB_USERNAME || 'root',
-  password: process.env.DB_PASSWORD || '1234',
+  password: process.env.DB_PASSWORD || '',
   database: process.env.DB_DATABASE || 'mathematico',
-  synchronize: false, // Disable auto-sync to prevent schema changes
-  migrationsRun: false, // Disable auto-running migrations for now
-  logging: !isProduction, // Log SQL queries in development
+  synchronize: false, // Keep false in production to avoid accidental schema changes
+  migrationsRun: true, // Run migrations automatically (good for Railway/Vercel)
+  logging: !isProduction, // Enable SQL logging only in dev
   entities: [
     User,
     Course,
@@ -43,20 +43,14 @@ export const AppDataSource = new DataSource({
     Book,
     LiveClass,
   ],
-  migrations: ['./src/migrations/*.ts'],
+  migrations: [path.join(__dirname, '../migrations/*{.ts,.js}')],
   subscribers: [],
-  dropSchema: false, // Set to true to drop schema on each application launch (for development)
   extra: {
     connectionLimit: 10, // Connection pool size
   },
-  // Enable SSL in production
   ...(isProduction && {
     ssl: {
-      rejectUnauthorized: false, // Set to false for self-signed certificates
+      rejectUnauthorized: false, // Railway MySQL requires SSL
     },
   }),
 });
-
-
-
-

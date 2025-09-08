@@ -6,9 +6,9 @@
 export const APP_CONFIG = {
   NAME: import.meta.env.VITE_APP_NAME || 'Educational Platform',
   VERSION: import.meta.env.VITE_APP_VERSION || '1.0.0',
-  ENV: import.meta.env.VITE_APP_ENV || 'development',
+  ENV: import.meta.env.VITE_APP_ENV || 'production',
   DEBUG: import.meta.env.VITE_APP_DEBUG === 'true',
-  DOMAIN: import.meta.env.VITE_APP_DOMAIN || 'localhost',
+  DOMAIN: import.meta.env.VITE_APP_DOMAIN || 'mathematico-frontend.vercel.app',
 };
 
 // API configuration

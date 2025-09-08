@@ -33,8 +33,8 @@ app.use(helmet({
       fontSrc: ["'self'"],
       objectSrc: ["'none'"],
       mediaSrc: ["'self'"],
-      frameSrc: ["'self'", "http://localhost:*"],
-      frameAncestors: ["'self'", "http://localhost:*"]
+      frameSrc: ["'self'", "https://mathematico-frontend.vercel.app"],
+      frameAncestors: ["'self'", "https://mathematico-frontend.vercel.app"]
     }
   } : false, // Disable CSP in development
   crossOriginResourcePolicy: { policy: "cross-origin" }
@@ -229,8 +229,8 @@ const startServer = async () => {
     // Start the server
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on port ${PORT}`);
-      console.log(`📚 API Documentation: http://localhost:${PORT}/api/v1/health`);
-      console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
+      console.log(`📚 API Documentation: https://mathematico-backend.vercel.app/api/v1/health`);
+      console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL || 'https://mathematico-frontend.vercel.app'}`);
       console.log(`🗄️  Database: ${process.env.DB_DATABASE || 'mathematico'}`);
       console.log(`👤 Admin Email: ${process.env.ADMIN_EMAIL || 'dc2006089@gmail.com'}`);
     });
