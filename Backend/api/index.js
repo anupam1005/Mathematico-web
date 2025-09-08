@@ -419,43 +419,424 @@ app.post('/api/v1/auth/reset-password', (req, res) => {
   }
 });
 
-// Basic API endpoints for other resources
-app.get('/api/v1/books', (req, res) => {
+// User-facing API endpoints
+app.get('/api/v1/courses', (req, res) => {
+  const { page = 1, limit = 10, category, search } = req.query;
+  
+  // Sample courses data
+  const sampleCourses = [
+    {
+      id: 1,
+      title: 'Advanced Mathematics',
+      description: 'Comprehensive course covering advanced mathematical concepts',
+      instructor: 'Dr. John Smith',
+      price: 99.99,
+      duration: '12 weeks',
+      level: 'Advanced',
+      category: 'Mathematics',
+      thumbnail: '/placeholder.svg',
+      rating: 4.8,
+      studentsCount: 150,
+      status: 'published',
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 2,
+      title: 'Calculus Fundamentals',
+      description: 'Learn the basics of calculus from scratch',
+      instructor: 'Prof. Jane Doe',
+      price: 79.99,
+      duration: '8 weeks',
+      level: 'Beginner',
+      category: 'Mathematics',
+      thumbnail: '/placeholder.svg',
+      rating: 4.6,
+      studentsCount: 200,
+      status: 'published',
+      createdAt: new Date().toISOString()
+    }
+  ];
+  
   res.json({
     success: true,
-    data: [],
-    message: 'Books endpoint - not implemented yet',
+    data: sampleCourses,
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total: sampleCourses.length,
+      totalPages: Math.ceil(sampleCourses.length / parseInt(limit))
+    },
+    message: 'Courses retrieved successfully',
     timestamp: new Date().toISOString()
   });
 });
 
-app.get('/api/v1/courses', (req, res) => {
+app.get('/api/v1/courses/:id', (req, res) => {
+  const courseId = req.params.id;
+  
+  // Sample course detail
+  const course = {
+    id: parseInt(courseId),
+    title: 'Advanced Mathematics',
+    description: 'Comprehensive course covering advanced mathematical concepts including differential equations, linear algebra, and complex analysis.',
+    instructor: 'Dr. John Smith',
+    price: 99.99,
+    duration: '12 weeks',
+    level: 'Advanced',
+    category: 'Mathematics',
+    thumbnail: '/placeholder.svg',
+    rating: 4.8,
+    studentsCount: 150,
+    status: 'published',
+    modules: [
+      {
+        id: 1,
+        title: 'Introduction to Advanced Mathematics',
+        lessons: [
+          { id: 1, title: 'Overview of Course', duration: '15 min', type: 'video' },
+          { id: 2, title: 'Mathematical Foundations', duration: '30 min', type: 'video' }
+        ]
+      },
+      {
+        id: 2,
+        title: 'Differential Equations',
+        lessons: [
+          { id: 3, title: 'First Order Equations', duration: '45 min', type: 'video' },
+          { id: 4, title: 'Second Order Equations', duration: '50 min', type: 'video' }
+        ]
+      }
+    ],
+    createdAt: new Date().toISOString()
+  };
+  
   res.json({
     success: true,
-    data: [],
-    message: 'Courses endpoint - not implemented yet',
+    data: course,
+    message: 'Course details retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/books', (req, res) => {
+  const { page = 1, limit = 10, category, search } = req.query;
+  
+  // Sample books data
+  const sampleBooks = [
+    {
+      id: 1,
+      title: 'Advanced Calculus Textbook',
+      author: 'Dr. John Smith',
+      description: 'Comprehensive textbook covering advanced calculus topics',
+      price: 49.99,
+      category: 'Mathematics',
+      pages: 450,
+      isbn: '978-1234567890',
+      coverImage: '/placeholder.svg',
+      pdfUrl: '/uploads/advanced-calculus.pdf',
+      status: 'published',
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 2,
+      title: 'Linear Algebra Fundamentals',
+      author: 'Prof. Jane Doe',
+      description: 'Essential guide to linear algebra concepts and applications',
+      price: 39.99,
+      category: 'Mathematics',
+      pages: 320,
+      isbn: '978-0987654321',
+      coverImage: '/placeholder.svg',
+      pdfUrl: '/uploads/linear-algebra.pdf',
+      status: 'published',
+      createdAt: new Date().toISOString()
+    }
+  ];
+  
+  res.json({
+    success: true,
+    data: sampleBooks,
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total: sampleBooks.length,
+      totalPages: Math.ceil(sampleBooks.length / parseInt(limit))
+    },
+    message: 'Books retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/books/:id', (req, res) => {
+  const bookId = req.params.id;
+  
+  const book = {
+    id: parseInt(bookId),
+    title: 'Advanced Calculus Textbook',
+    author: 'Dr. John Smith',
+    description: 'Comprehensive textbook covering advanced calculus topics including limits, derivatives, integrals, and series.',
+    price: 49.99,
+    category: 'Mathematics',
+    pages: 450,
+    isbn: '978-1234567890',
+    coverImage: '/placeholder.svg',
+    pdfUrl: '/uploads/advanced-calculus.pdf',
+    status: 'published',
+    chapters: [
+      { id: 1, title: 'Introduction to Calculus', pageStart: 1, pageEnd: 50 },
+      { id: 2, title: 'Limits and Continuity', pageStart: 51, pageEnd: 100 },
+      { id: 3, title: 'Derivatives', pageStart: 101, pageEnd: 200 }
+    ],
+    createdAt: new Date().toISOString()
+  };
+  
+  res.json({
+    success: true,
+    data: book,
+    message: 'Book details retrieved successfully',
     timestamp: new Date().toISOString()
   });
 });
 
 app.get('/api/v1/live-classes', (req, res) => {
+  const { page = 1, limit = 10, status } = req.query;
+  
+  // Sample live classes data
+  const sampleLiveClasses = [
+    {
+      id: 1,
+      title: 'Advanced Mathematics Live Session',
+      description: 'Interactive live session on advanced mathematical concepts',
+      instructor: 'Dr. John Smith',
+      date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+      duration: 120, // minutes
+      maxStudents: 50,
+      currentStudents: 25,
+      price: 29.99,
+      status: 'upcoming',
+      meetingLink: 'https://meet.example.com/advanced-math',
+      thumbnail: '/placeholder.svg',
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: 2,
+      title: 'Calculus Problem Solving',
+      description: 'Live problem-solving session for calculus students',
+      instructor: 'Prof. Jane Doe',
+      date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
+      duration: 90,
+      maxStudents: 30,
+      currentStudents: 18,
+      price: 19.99,
+      status: 'upcoming',
+      meetingLink: 'https://meet.example.com/calculus-problems',
+      thumbnail: '/placeholder.svg',
+      createdAt: new Date().toISOString()
+    }
+  ];
+  
   res.json({
     success: true,
-    data: [],
-    message: 'Live classes endpoint - not implemented yet',
+    data: sampleLiveClasses,
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total: sampleLiveClasses.length,
+      totalPages: Math.ceil(sampleLiveClasses.length / parseInt(limit))
+    },
+    message: 'Live classes retrieved successfully',
     timestamp: new Date().toISOString()
   });
 });
 
-// Enrollment endpoints
+app.get('/api/v1/live-classes/:id', (req, res) => {
+  const classId = req.params.id;
+  
+  const liveClass = {
+    id: parseInt(classId),
+    title: 'Advanced Mathematics Live Session',
+    description: 'Interactive live session on advanced mathematical concepts including differential equations and linear algebra.',
+    instructor: 'Dr. John Smith',
+    date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+    duration: 120,
+    maxStudents: 50,
+    currentStudents: 25,
+    price: 29.99,
+    status: 'upcoming',
+    meetingLink: 'https://meet.example.com/advanced-math',
+    thumbnail: '/placeholder.svg',
+    agenda: [
+      { time: '0-30 min', topic: 'Introduction and Overview' },
+      { time: '30-60 min', topic: 'Differential Equations' },
+      { time: '60-90 min', topic: 'Linear Algebra' },
+      { time: '90-120 min', topic: 'Q&A Session' }
+    ],
+    materials: [
+      { name: 'Course Notes', url: '/uploads/advanced-math-notes.pdf' },
+      { name: 'Practice Problems', url: '/uploads/practice-problems.pdf' }
+    ],
+    createdAt: new Date().toISOString()
+  };
+  
+  res.json({
+    success: true,
+    data: liveClass,
+    message: 'Live class details retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Purchase and Enrollment endpoints
+app.post('/api/v1/courses/:id/purchase', (req, res) => {
+  const courseId = req.params.id;
+  const { paymentMethod, amount } = req.body;
+  
+  // Simulate payment processing
+  const paymentId = `pay_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  
+  res.json({
+    success: true,
+    data: {
+      paymentId: paymentId,
+      courseId: parseInt(courseId),
+      amount: amount || 99.99,
+      status: 'completed',
+      enrolledAt: new Date().toISOString(),
+      accessExpiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() // 1 year
+    },
+    message: 'Course purchased and enrolled successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.get('/api/v1/enrollments/status', (req, res) => {
   res.json({
     success: true,
     data: {
-      enrolled: false,
-      status: 'not_enrolled'
+      enrolled: true,
+      status: 'enrolled',
+      courses: [
+        {
+          id: 1,
+          title: 'Advanced Mathematics',
+          enrolledAt: new Date().toISOString(),
+          progress: 25,
+          accessExpiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+        }
+      ]
     },
-    message: 'Enrollment status endpoint',
+    message: 'Enrollment status retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/enrollments/my-courses', (req, res) => {
+  res.json({
+    success: true,
+    data: [
+      {
+        id: 1,
+        courseId: 1,
+        title: 'Advanced Mathematics',
+        instructor: 'Dr. John Smith',
+        thumbnail: '/placeholder.svg',
+        progress: 25,
+        enrolledAt: new Date().toISOString(),
+        lastAccessed: new Date().toISOString(),
+        accessExpiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    ],
+    message: 'User courses retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/enrollments/my-books', (req, res) => {
+  res.json({
+    success: true,
+    data: [
+      {
+        id: 1,
+        bookId: 1,
+        title: 'Advanced Calculus Textbook',
+        author: 'Dr. John Smith',
+        coverImage: '/placeholder.svg',
+        purchasedAt: new Date().toISOString(),
+        lastAccessed: new Date().toISOString(),
+        accessExpiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    ],
+    message: 'User books retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/v1/enrollments/my-live-classes', (req, res) => {
+  res.json({
+    success: true,
+    data: [
+      {
+        id: 1,
+        liveClassId: 1,
+        title: 'Advanced Mathematics Live Session',
+        instructor: 'Dr. John Smith',
+        date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        enrolledAt: new Date().toISOString(),
+        meetingLink: 'https://meet.example.com/advanced-math'
+      }
+    ],
+    message: 'User live classes retrieved successfully',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Course access verification
+app.get('/api/v1/courses/:id/access', (req, res) => {
+  const courseId = req.params.id;
+  
+  res.json({
+    success: true,
+    data: {
+      hasAccess: true,
+      courseId: parseInt(courseId),
+      enrolledAt: new Date().toISOString(),
+      accessExpiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+      progress: 25
+    },
+    message: 'Course access verified',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Book access verification
+app.get('/api/v1/books/:id/access', (req, res) => {
+  const bookId = req.params.id;
+  
+  res.json({
+    success: true,
+    data: {
+      hasAccess: true,
+      bookId: parseInt(bookId),
+      purchasedAt: new Date().toISOString(),
+      accessExpiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    message: 'Book access verified',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Live class access verification
+app.get('/api/v1/live-classes/:id/access', (req, res) => {
+  const classId = req.params.id;
+  
+  res.json({
+    success: true,
+    data: {
+      hasAccess: true,
+      liveClassId: parseInt(classId),
+      enrolledAt: new Date().toISOString(),
+      meetingLink: 'https://meet.example.com/advanced-math'
+    },
+    message: 'Live class access verified',
     timestamp: new Date().toISOString()
   });
 });
