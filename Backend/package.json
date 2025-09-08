@@ -21,7 +21,8 @@
     "db:setup-complete": "node setup-database-complete.js",
     "db:setup-simple": "node setup-database-simple.js",
     "db:migrate": "npx typeorm -d src/config/data-source-cli.ts migration:run",
-    "db:migrate:generate": "npx typeorm -d src/config/data-source-cli.ts migration:generate"
+    "db:migrate:generate": "npx typeorm -d src/config/data-source-cli.ts migration:generate",
+    "test:api": "node test-api.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

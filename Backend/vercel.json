@@ -4,20 +4,9 @@
     {
       "src": "api/index.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "src/index.ts",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["src/**", "package.json", "tsconfig.json", "config.env"]
-      }
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "api/index.js"
-    },
     {
       "src": "/(.*)",
       "dest": "api/index.js"
