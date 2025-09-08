@@ -10,11 +10,11 @@ import path from 'path';
 import dotenv from 'dotenv';
 
 // Load environment variables
-if (process.env.NODE_ENV === 'production') {
-  // In production (Vercel), use environment variables directly
+if (process.env.NODE_ENV === 'production' && process.env.VERCEL === '1') {
+  // In Vercel production, use environment variables directly
   dotenv.config();
 } else {
-  // In development, load from config.env file
+  // In local development, load from config.env file
   dotenv.config({ path: path.join(__dirname, '../config.env') });
 }
 
@@ -180,6 +180,21 @@ app.get('/uploads/*.pdf', (_req, res, next) => {
 // API routes with versioning
 app.use('/api/v1', routes);
 
+// Health check endpoint
+app.get('/api/v1/health', (_req, res) => {
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV,
+    vercel: process.env.VERCEL === '1',
+    database: {
+      host: process.env.DB_HOST,
+      database: process.env.DB_DATABASE,
+      connected: AppDataSource.isInitialized
+    }
+  });
+});
+
 // Root endpoint
 app.get('/', (_req, res) => {
   res.json({
@@ -187,6 +202,8 @@ app.get('/', (_req, res) => {
     version: '1.0.0',
     status: 'running',
     timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV,
+    vercel: process.env.VERCEL === '1',
     endpoints: {
       health: '/api/v1/health',
       auth: '/api/v1/auth',
@@ -215,23 +232,34 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
+// Initialize database connection
+const initializeDatabase = async () => {
+  try {
+    if (!AppDataSource.isInitialized) {
+      await AppDataSource.initialize();
+      console.log('✅ Database connection established');
+    }
+  } catch (error) {
+    console.error('❌ Database connection failed:', error);
+    // In Vercel, don't exit on database connection failure
+    if (process.env.VERCEL !== '1') {
+      throw error;
+    }
+  }
+};
+
 // Start server function
 const startServer = async () => {
   try {
-    // Initialize database connection only if not in Vercel
-    if (process.env.VERCEL !== '1') {
-      await AppDataSource.initialize();
-      console.log('✅ Database connection established');
-    } else {
-      console.log('⚠️  Running in Vercel - Database connection skipped');
-    }
+    // Initialize database connection
+    await initializeDatabase();
 
     // Start the server
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on port ${PORT}`);
       console.log(`📚 API Documentation: https://mathematico-backend.vercel.app/api/v1/health`);
       console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL || 'https://mathematico-frontend.vercel.app'}`);
-      console.log(`🗄️  Database: ${process.env.DB_DATABASE || 'mathematico'}`);
+      console.log(`🗄️  Database: ${process.env.DB_DATABASE || 'railway'}`);
       console.log(`👤 Admin Email: ${process.env.ADMIN_EMAIL || 'dc2006089@gmail.com'}`);
     });
 

@@ -14,8 +14,14 @@ import { LiveClass } from '../entities/LiveClass';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Load environment variables from config.env (local dev)
-dotenv.config({ path: path.join(__dirname, '../../config.env') });
+// Load environment variables
+if (process.env.NODE_ENV === 'production' && process.env.VERCEL === '1') {
+  // In Vercel production, use environment variables directly
+  dotenv.config();
+} else {
+  // In local development, load from config.env file
+  dotenv.config({ path: path.join(__dirname, '../../config.env') });
+}
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -47,6 +53,9 @@ export const AppDataSource = new DataSource({
   subscribers: [],
   extra: {
     connectionLimit: 10, // Connection pool size
+    acquireTimeout: 60000, // 60 seconds
+    timeout: 60000, // 60 seconds
+    reconnect: true,
   },
   ...(isProduction && {
     ssl: {

@@ -13,7 +13,10 @@
     "db:create": "ts-node src/config/createDatabase.ts",
     "db:drop": "ts-node src/config/dropDatabase.ts",
     "db:seed": "ts-node src/config/seedDatabase.ts",
-    "db:setup": "npm run setup-db"
+    "db:setup": "npm run setup-db",
+    "db:test": "node test-db-connection.js",
+    "db:railway": "node setup-railway-db.js",
+    "db:schema": "node setup-railway-schema.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
