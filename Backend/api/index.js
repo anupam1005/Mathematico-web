@@ -178,17 +178,20 @@ app.post('/api/v1/auth/login', (req, res) => {
       res.json({
         success: true,
         message: 'Login successful',
-        user: {
-          id: 1,
-          email: email,
-          role: 'admin',
-          name: 'Admin User'
+        data: {
+          user: {
+            id: 1,
+            email: email,
+            role: 'admin',
+            name: 'Admin User'
+          },
+          token: token
         },
-        token: token,
         timestamp: new Date().toISOString()
       });
     } else {
       res.status(401).json({
+        success: false,
         error: 'Unauthorized',
         message: 'Invalid email or password',
         timestamp: new Date().toISOString()
@@ -204,6 +207,78 @@ app.post('/api/v1/auth/login', (req, res) => {
   }
 });
 
+// Registration endpoint
+app.post('/api/v1/auth/register', (req, res) => {
+  try {
+    console.log('Registration attempt:', req.body);
+    console.log('Request headers:', req.headers);
+    
+    // Parse JSON body if it's a string
+    let body = req.body;
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        return res.status(400).json({
+          success: false,
+          error: 'Bad Request',
+          message: 'Invalid JSON in request body',
+          timestamp: new Date().toISOString()
+        });
+      }
+    }
+    
+    const { email, password, name } = body;
+    
+    // Basic validation
+    if (!email || !password || !name) {
+      return res.status(400).json({
+        success: false,
+        error: 'Bad Request',
+        message: 'Email, password, and name are required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    // Check if email is already taken (admin email)
+    if (email === 'dc2006089@gmail.com') {
+      return res.status(409).json({
+        success: false,
+        error: 'Conflict',
+        message: 'Email already exists',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    // Generate a simple token (in production, use proper JWT)
+    const token = Buffer.from(`${email}:${Date.now()}`).toString('base64');
+    
+    res.json({
+      success: true,
+      message: 'Registration successful',
+      data: {
+        user: {
+          id: Math.floor(Math.random() * 1000) + 2, // Random ID for new users
+          email: email,
+          role: 'user',
+          name: name
+        },
+        token: token
+      },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Registration endpoint error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal Server Error',
+      message: 'Registration failed',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
 // Auth status endpoint
 app.get('/api/v1/auth/status', (req, res) => {
   try {
@@ -211,6 +286,7 @@ app.get('/api/v1/auth/status', (req, res) => {
     
     if (!token) {
       return res.status(401).json({
+        success: false,
         error: 'Unauthorized',
         message: 'No token provided',
         timestamp: new Date().toISOString()
@@ -220,20 +296,45 @@ app.get('/api/v1/auth/status', (req, res) => {
     // Simple token validation (in production, use proper JWT validation)
     try {
       const decoded = Buffer.from(token, 'base64').toString('utf-8');
-      const [email] = decoded.split(':');
+      const [email, timestamp] = decoded.split(':');
       
-      res.json({
-        success: true,
-        user: {
-          id: 1,
-          email: email,
-          role: 'admin',
-          name: 'Admin User'
-        },
-        timestamp: new Date().toISOString()
-      });
+      if (!email) {
+        throw new Error('Invalid token format');
+      }
+      
+      // Check if it's the admin user
+      if (email === 'dc2006089@gmail.com') {
+        res.json({
+          success: true,
+          data: {
+            user: {
+              id: 1,
+              email: email,
+              role: 'admin',
+              name: 'Admin User'
+            }
+          },
+          timestamp: new Date().toISOString()
+        });
+      } else {
+        // For regular users, return user role
+        res.json({
+          success: true,
+          data: {
+            user: {
+              id: Math.floor(Math.random() * 1000) + 2,
+              email: email,
+              role: 'user',
+              name: 'User'
+            }
+          },
+          timestamp: new Date().toISOString()
+        });
+      }
     } catch (decodeError) {
+      console.error('Token decode error:', decodeError);
       res.status(401).json({
+        success: false,
         error: 'Unauthorized',
         message: 'Invalid token',
         timestamp: new Date().toISOString()
@@ -242,6 +343,7 @@ app.get('/api/v1/auth/status', (req, res) => {
   } catch (error) {
     console.error('Auth status endpoint error:', error);
     res.status(500).json({
+      success: false,
       error: 'Internal Server Error',
       message: 'Auth status check failed',
       timestamp: new Date().toISOString()

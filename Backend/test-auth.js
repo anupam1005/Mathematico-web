@@ -35,10 +35,11 @@ const testLogin = () => {
       return loginRes;
     },
     json: (data) => {
-      if (data.success) {
+      if (data.success && data.data) {
         console.log('✅ Login successful');
-        console.log('📋 User:', data.user.email);
-        console.log('📋 Role:', data.user.role);
+        console.log('📋 User:', data.data.user.email);
+        console.log('📋 Role:', data.data.user.role);
+        console.log('📋 Token:', data.data.token ? 'Present' : 'Missing');
         return loginRes;
       } else {
         console.log('❌ Login failed:', data.message);
@@ -57,15 +58,66 @@ const testLogin = () => {
   handler(loginReq, loginRes);
 };
 
+// Test registration endpoint
+const testRegistration = () => {
+  console.log('\n2️⃣ Testing registration endpoint...');
+  
+  const registerReq = {
+    method: 'POST',
+    url: '/api/v1/auth/register',
+    headers: {
+      'content-type': 'application/json',
+      'origin': 'https://mathematico-frontend.vercel.app'
+    },
+    body: {
+      email: 'test@example.com',
+      password: 'testpassword123',
+      name: 'Test User'
+    },
+    originalUrl: '/api/v1/auth/register'
+  };
+  
+  const registerRes = {
+    status: (code) => {
+      console.log(`📋 Registration endpoint - Status: ${code}`);
+      return registerRes;
+    },
+    json: (data) => {
+      if (data.success && data.data) {
+        console.log('✅ Registration successful');
+        console.log('📋 User:', data.data.user.email);
+        console.log('📋 Role:', data.data.user.role);
+        console.log('📋 Token:', data.data.token ? 'Present' : 'Missing');
+        return registerRes;
+      } else {
+        console.log('❌ Registration failed:', data.message);
+        return registerRes;
+      }
+    },
+    end: () => { return registerRes; },
+    setHeader: () => { return registerRes; },
+    getHeader: () => { return undefined; },
+    removeHeader: () => { return registerRes; }
+  };
+
+  // Mock express.json() middleware
+  registerReq.body = JSON.stringify(registerReq.body);
+  
+  handler(registerReq, registerRes);
+};
+
 // Test auth status endpoint
 const testAuthStatus = () => {
-  console.log('\n2️⃣ Testing auth status endpoint...');
+  console.log('\n3️⃣ Testing auth status endpoint...');
+  
+  // Generate a valid token for testing
+  const testToken = Buffer.from('dc2006089@gmail.com:' + Date.now()).toString('base64');
   
   const statusReq = {
     method: 'GET',
     url: '/api/v1/auth/status',
     headers: {
-      'authorization': 'Bearer ' + Buffer.from('dc2006089@gmail.com:1234567890').toString('base64'),
+      'authorization': 'Bearer ' + testToken,
       'origin': 'https://mathematico-frontend.vercel.app'
     },
     originalUrl: '/api/v1/auth/status'
@@ -77,9 +129,10 @@ const testAuthStatus = () => {
       return statusRes;
     },
     json: (data) => {
-      if (data.success) {
+      if (data.success && data.data) {
         console.log('✅ Auth status check successful');
-        console.log('📋 User:', data.user.email);
+        console.log('📋 User:', data.data.user.email);
+        console.log('📋 Role:', data.data.user.role);
         return statusRes;
       } else {
         console.log('❌ Auth status check failed:', data.message);
@@ -97,7 +150,7 @@ const testAuthStatus = () => {
 
 // Test CORS headers
 const testCORS = () => {
-  console.log('\n3️⃣ Testing CORS headers...');
+  console.log('\n4️⃣ Testing CORS headers...');
   
   const corsReq = {
     method: 'OPTIONS',
@@ -134,6 +187,7 @@ const testCORS = () => {
 
 // Run all tests
 testLogin();
+testRegistration();
 testAuthStatus();
 testCORS();
 
