@@ -1,170 +1,72 @@
-# Mathematico Backend
 
-Backend service for Mathematico - A Mathematics Learning Platform
+## Project info
 
-[![Node.js CI](https://github.com/your-username/mathematico-backend/actions/workflows/node.js.yml/badge.svg)](https://github.com/your-username/mathematico-backend/actions/workflows/node.js.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+**URL**: https://lovable.dev/projects/0c743417-276c-4c7c-a0b3-28c8fa6ba5d6
 
-## Prerequisites
+## How can I edit this code?
 
-- Node.js (v18 or higher)
-- MySQL (v8.0 or higher)
-- npm (v9 or higher) or yarn
+There are several ways of editing your application.
 
-## Setup
+**Use Lovable**
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd mathematico-backend
-   ```
+Simply visit the [Lovable Project](https://lovable.dev/projects/0c743417-276c-4c7c-a0b3-28c8fa6ba5d6) and start prompting.
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn
-   ```
+Changes made via Lovable will be committed automatically to this repo.
 
-3. **Set up environment variables**
-   - Copy `.env.example` to `.env`
-   - Update the database credentials and other environment variables as needed
+**Use your preferred IDE**
 
-4. **Database setup**
-   ```bash
-   # Create and seed the database
-   npm run db:setup
-   
-   # Or run individual commands:
-   # Create database
-   npm run db:create
-   
-   # Seed the database
-   npm run db:seed
-   ```
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-   This will:
-   - Create the database if it doesn't exist
-   - Run all pending migrations
-   - Seed the database with initial data (admin user, roles, settings, etc.)
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-   **Default Admin Credentials**
-   - Email: admin@mathematico.com
-   - Password: admin123
+Follow these steps:
 
-## Development
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
 
-```bash
-# Start development server with hot-reload
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
+
+# Step 3: Install the necessary dependencies.
+npm i
+
+# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-
-
 ```
 
-## Database Management
+**Edit a file directly in GitHub**
 
-```bash
-# Create database
-npm run db:create
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
 
-# Drop database
-npm run db:drop
+**Use GitHub Codespaces**
 
-# Seed database
-npm run db:seed
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-# Setup database (create and seed)
-npm run db:setup
-```
+## What technologies are used for this project?
 
-## Environment Variables
+This project is built with:
 
-Copy `.env.example` to `.env` and update the following variables:
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
 
-```env
-# Server Configuration
-NODE_ENV=development
-PORT=5000
-API_PREFIX=/api/v1
+## How can I deploy this project?
 
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=3306
-DB_USERNAME=root
-DB_PASSWORD=your_password
-DB_DATABASE=mathematico
-DB_SYNC=false
+Simply open [Lovable](https://lovable.dev/projects/0c743417-276c-4c7c-a0b3-28c8fa6ba5d6) and click on Share -> Publish.
 
-# JWT Configuration
-JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRES_IN=1d
-JWT_REFRESH_SECRET=your_refresh_token_secret
-JWT_REFRESH_EXPIRES_IN=7d
+## Can I connect a custom domain to my Lovable project?
 
-# CORS Configuration
-CORS_ORIGIN=http://localhost:3000
+Yes, you can!
 
-# Logging
-LOG_LEVEL=info
+To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-# Security
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX=100
-```
-
-## API Documentation
-
-Once the server is running, you can access:
-- API Documentation: `http://localhost:5000/api-docs`
-- Health Check: `http://localhost:5000/api/health`
-
-## Testing
-
-```bash
-# Run tests
-npm test
-
-# Run tests with coverage
-npm test -- --coverage
-```
-
-## Linting
-
-```bash
-# Run ESLint
-npm run lint
-
-# Fix linting issues
-npm run lint -- --fix
-
-# Format code with Prettier
-npm run format
-```
-
-## Project Structure
-
-```
-src/
-├── config/           # Configuration files
-├── controllers/      # Route controllers
-├── middleware/       # Custom middleware
-├── models/           # Database models
-├── routes/           # Route definitions
-├── services/         # Business logic
-├── utils/            # Utility classes and functions
-└── validations/      # Request validation schemas
-```
-
-## Environment Variables
-
-See `.env.example` for all available environment variables.
-
-## License
-
-MIT
+Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)

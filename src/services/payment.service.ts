@@ -1,145 +1,100 @@
-import Razorpay from 'razorpay';
-import crypto from 'crypto';
-import { AppDataSource } from '../config/data-source';
-import { Course } from '../entities/Course';
-import { User } from '../entities/User';
+import api from '@/lib/api';
 
-export class PaymentService {
-  private razorpay: Razorpay;
+export interface PaymentOrder {
+  id: string;
+  amount: number;
+  currency: string;
+  receipt: string;
+  status: string;
+}
 
-  constructor() {
-    console.log('PaymentService constructor - Environment check:');
-    console.log('RAZORPAY_KEY_ID:', process.env.RAZORPAY_KEY_ID);
-    console.log('RAZORPAY_KEY_SECRET exists:', !!process.env.RAZORPAY_KEY_SECRET);
-    
-    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-      throw new Error('Razorpay credentials not found in environment variables');
-    }
-    
-    this.razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID!,
-      key_secret: process.env.RAZORPAY_KEY_SECRET!,
-    });
-  }
+export interface CoursePaymentData {
+  order: PaymentOrder;
+  course: {
+    id: string;
+    title: string;
+    price: number;
+  };
+}
 
-  async createOrder(amount: number, currency: string = 'INR', receipt: string) {
+export interface PaymentVerificationData {
+  paymentId: string;
+  orderId: string;
+  signature: string;
+  courseId: string;
+}
+
+export interface PaymentVerificationResponse {
+  success: boolean;
+  message: string;
+  enrollment: {
+    id: string;
+    courseId: string;
+    courseTitle: string;
+    enrolledAt: string;
+    paymentStatus: string;
+  };
+  payment: {
+    id: string;
+    amount: number;
+    currency: string;
+    status: string;
+  };
+}
+
+class PaymentService {
+  private readonly baseUrl = '/payments';
+
+  async createPaymentOrder(courseId: string): Promise<CoursePaymentData> {
     try {
-      console.log('Razorpay createOrder called with:', { amount, currency, receipt });
-      console.log('Razorpay key_id:', process.env.RAZORPAY_KEY_ID);
-      console.log('Razorpay key_secret exists:', !!process.env.RAZORPAY_KEY_SECRET);
-      
-      const options = {
-        amount: amount * 100, // Razorpay expects amount in paise
-        currency,
-        receipt,
-        payment_capture: 1, // Auto capture payment
-      };
+      const response = await api.post(`${this.baseUrl}/create-order`, {
+        courseId
+      });
 
-      console.log('Razorpay options:', options);
-      const order = await this.razorpay.orders.create(options);
-      console.log('Razorpay order created successfully:', order);
-      return order;
+      if (response.data.success) {
+        return {
+          order: response.data.order,
+          course: response.data.course
+        };
+      } else {
+        throw new Error(response.data.message || 'Failed to create payment order');
+      }
     } catch (error: any) {
-      console.error('Error creating Razorpay order:', error);
-      console.error('Error details:', {
-        message: error.message,
-        code: error.code,
-        statusCode: error.statusCode,
-        response: error.response
-      });
-      
-      // Handle Razorpay specific errors
-      if (error.statusCode === 400 && error.error) {
-        const razorpayError = error.error;
-        throw new Error(`Razorpay Error: ${razorpayError.description || razorpayError.reason || 'Invalid request'}`);
+      console.error('Error creating payment order:', error);
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
       }
-      
-      throw new Error(`Failed to create payment order: ${error.message || 'Unknown error'}`);
+      throw new Error('Failed to create payment order');
     }
   }
 
-  async verifyPayment(paymentId: string, orderId: string, signature: string): Promise<boolean> {
+  async verifyPayment(verificationData: PaymentVerificationData): Promise<PaymentVerificationResponse> {
     try {
-      const body = orderId + '|' + paymentId;
-      const expectedSignature = crypto
-        .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
-        .update(body.toString())
-        .digest('hex');
+      const response = await api.post(`${this.baseUrl}/verify`, verificationData);
 
-      return expectedSignature === signature;
-    } catch (error) {
+      if (response.data.success) {
+        return response.data;
+      } else {
+        throw new Error(response.data.message || 'Payment verification failed');
+      }
+    } catch (error: any) {
       console.error('Error verifying payment:', error);
-      return false;
+      if (error.response?.data?.message) {
+        throw new Error(error.response.data.message);
+      }
+      throw new Error('Payment verification failed');
     }
   }
 
-  async getPaymentDetails(paymentId: string) {
+  async getPaymentStatus(paymentId: string) {
     try {
-      const payment = await this.razorpay.payments.fetch(paymentId);
-      return payment;
-    } catch (error) {
-      console.error('Error fetching payment details:', error);
-      throw new Error('Failed to fetch payment details');
-    }
-  }
-
-  async createCoursePaymentOrder(courseId: string, userId: string) {
-    try {
-      console.log('Payment Service - createCoursePaymentOrder called');
-      console.log('Course ID:', courseId);
-      console.log('User ID:', userId);
-      
-      const courseRepository = AppDataSource.getRepository(Course);
-      const userRepository = AppDataSource.getRepository(User);
-
-      console.log('Fetching course...');
-      const course = await courseRepository.findOne({ where: { id: courseId } });
-      console.log('Course found:', course ? 'Yes' : 'No');
-      
-      console.log('Fetching user...');
-      const user = await userRepository.findOne({ where: { id: userId } });
-      console.log('User found:', user ? 'Yes' : 'No');
-
-      if (!course) {
-        throw new Error('Course not found');
-      }
-
-      if (!user) {
-        throw new Error('User not found');
-      }
-
-      const coursePrice = Number(course.price);
-      console.log('Course price check:', {
-        price: course.price,
-        priceType: typeof course.price,
-        priceAsNumber: coursePrice,
-        isFree: coursePrice <= 0
-      });
-      
-      if (coursePrice <= 0) {
-        throw new Error('Course is free, no payment required');
-      }
-
-      // Create a shorter receipt (Razorpay limit is 40 characters)
-      const receipt = `course_${courseId.substring(0, 8)}_${Date.now()}`;
-      console.log('Creating Razorpay order with:', {
-        amount: coursePrice,
-        currency: 'INR',
-        receipt
-      });
-      
-      const order = await this.createOrder(coursePrice, 'INR', receipt);
-      console.log('Razorpay order created:', order);
-
-      return {
-        order,
-        course,
-        user,
-        receipt
-      };
-    } catch (error) {
-      console.error('Error creating course payment order:', error);
-      throw error;
+      const response = await api.get(`${this.baseUrl}/status/${paymentId}`);
+      return response.data;
+    } catch (error: any) {
+      console.error('Error fetching payment status:', error);
+      throw new Error('Failed to fetch payment status');
     }
   }
 }
+
+export const paymentService = new PaymentService();
