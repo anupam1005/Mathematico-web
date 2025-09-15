@@ -1,0 +1,17 @@
+{
+  "name": "mathematico-backend-vercel",
+  "version": "1.0.0",
+  "description": "Mathematico Backend API for Vercel",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
