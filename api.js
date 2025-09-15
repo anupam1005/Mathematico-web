@@ -94,9 +94,9 @@ app.get('/', (req, res) => {
 // API v1 base endpoint
 app.get('/api/v1', (req, res) => {
   res.json({
+    status: 'Mathematico API v1 running',
     message: 'Mathematico API v1',
     version: '1.1.0',
-    status: 'running',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
     vercel: process.env.VERCEL === '1',
@@ -107,7 +107,9 @@ app.get('/api/v1', (req, res) => {
       courses: '/api/v1/courses',
       liveClasses: '/api/v1/live-classes',
       admin: '/api/v1/admin',
-      enrollments: '/api/v1/enrollments'
+      enrollments: '/api/v1/enrollments',
+      users: '/api/v1/users',
+      payments: '/api/v1/payments'
     }
   });
 });
