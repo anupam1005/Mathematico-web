@@ -73,12 +73,13 @@ app.use((req, res, next) => {
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({
-    message: 'Mathematico API Server',
-    version: '1.1.0',
+    message: 'Mathematico API Server - UPDATED',
+    version: '1.2.0',
     status: 'running',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
     vercel: process.env.VERCEL === '1',
+    deployment: 'api/index.js',
     endpoints: {
       health: '/api/v1/health',
       auth: '/api/v1/auth',
