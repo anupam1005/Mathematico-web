@@ -5,84 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Search, Filter, BookOpen, Users, Clock, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-// Mock books data
-const books = [
-  {
-    id: 1,
-    title: "JEE Advanced Mathematics",
-    author: "Dr. R.D. Sharma",
-    category: "JEE Advanced",
-    level: "Advanced",
-    pages: 450,
-    rating: 4.8,
-    students: 1250,
-    duration: "6 months",
-    description: "Comprehensive guide for JEE Advanced mathematics preparation",
-    thumbnailUrl: "/placeholder.svg"
-  },
-  {
-    id: 2,
-    title: "Class 11 NCERT Mathematics",
-    author: "NCERT",
-    category: "Class 11",
-    level: "Foundation",
-    pages: 320,
-    rating: 4.5,
-    students: 2100,
-    duration: "1 year",
-    description: "Official NCERT textbook for Class 11 mathematics",
-    thumbnailUrl: "/placeholder.svg"
-  },
-  {
-    id: 3,
-    title: "Class 12 Board Mathematics",
-    author: "Dr. H.C. Verma",
-    category: "Class 12",
-    level: "Intermediate",
-    pages: 380,
-    rating: 4.7,
-    students: 1800,
-    duration: "1 year",
-    description: "Complete preparation guide for Class 12 board exams",
-    thumbnailUrl: "/placeholder.svg"
-  },
-  {
-    id: 4,
-    title: "Olympiad Mathematics",
-    author: "Prof. A.K. Singh",
-    category: "Olympiad",
-    level: "Expert",
-    pages: 520,
-    rating: 4.9,
-    students: 850,
-    duration: "8 months",
-    description: "Advanced mathematics for competitive olympiads",
-    thumbnailUrl: "/placeholder.svg"
-  },
-  {
-    id: 5,
-    title: "NTSE Preparation Guide",
-    author: "Dr. S.K. Gupta",
-    category: "NTSE",
-    level: "Intermediate",
-    pages: 280,
-    rating: 4.6,
-    students: 950,
-    duration: "4 months",
-    description: "Focused preparation for NTSE examination",
-    thumbnailUrl: "/placeholder.svg"
-  }
-];
+// Empty books data - ready for real content
+const books = [];
 
 const bookCategories = ["All Books", "JEE Advanced", "Class 11", "Class 12", "Olympiad", "NTSE"];
 
 export default function BooksSection() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Books");
-  const [books, setBooks] = useState(books);
+  const [booksData, setBooksData] = useState(books);
 
   // Filter books based on search and category
-  const filteredBooks = books.filter(book => {
+  const filteredBooks = booksData.filter(book => {
     const matchesSearch = book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          book.description.toLowerCase().includes(searchTerm.toLowerCase());

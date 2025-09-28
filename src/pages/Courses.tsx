@@ -55,7 +55,6 @@ const Courses = () => {
 
         console.log('🖼️ Courses API Response:', response);
         console.log('🖼️ Courses data:', response.data);
-        console.log('🖼️ Sample course thumbnailUrl:', response.data[0]?.thumbnailUrl);
         
         setCourses(response.data);
         setTotalPages(response.meta?.totalPages || 1);

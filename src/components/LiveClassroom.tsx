@@ -44,19 +44,9 @@ export const LiveClassroom = () => {
   const [chatMessage, setChatMessage] = useState("");
   const [isHandRaised, setIsHandRaised] = useState(false);
 
-  // Sample data
-  const participants: Participant[] = [
-    { id: "1", name: "Dr. Sarah Johnson (Teacher)", isTeacher: true, isMuted: false, hasVideo: true, isHandRaised: false },
-    { id: "2", name: "John Smith", isTeacher: false, isMuted: true, hasVideo: true, isHandRaised: false },
-    { id: "3", name: "Emma Wilson", isTeacher: false, isMuted: true, hasVideo: false, isHandRaised: true },
-    { id: "4", name: "Mike Brown", isTeacher: false, isMuted: true, hasVideo: true, isHandRaised: false },
-  ];
-
-  const chatMessages: ChatMessage[] = [
-    { id: "1", sender: "Dr. Sarah Johnson", message: "Welcome everyone! Let's start with today's lesson on Advanced Mathematics.", timestamp: "10:00 AM", isTeacher: true },
-    { id: "2", sender: "John Smith", message: "Thank you professor!", timestamp: "10:01 AM", isTeacher: false },
-    { id: "3", sender: "Emma Wilson", message: "Can you please share the slides?", timestamp: "10:02 AM", isTeacher: false },
-  ];
+  // Empty data - ready for real content
+  const participants: Participant[] = [];
+  const chatMessages: ChatMessage[] = [];
 
   const handleSendMessage = () => {
     if (chatMessage.trim()) {
