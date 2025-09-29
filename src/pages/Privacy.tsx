@@ -36,7 +36,7 @@ const Privacy = () => {
           <Card>
             <CardContent className="pt-6">
               <p className="text-lg text-gray-700 leading-relaxed">
-                This Privacy Policy explains how <strong>Mathematico</strong> ("we," "our," or "us") collects, uses, and protects your personal information when you use our application and related services. By using our app, you agree to the practices described in this Privacy Policy.
+                At <strong>Mathematico</strong>, we value your privacy. This Privacy Policy explains how our Mathematico mobile application handles user information.
               </p>
             </CardContent>
           </Card>
@@ -51,24 +51,20 @@ const Privacy = () => {
             </CardHeader>
             <CardContent>
               <p className="text-gray-700 leading-relaxed mb-4">
-                We may collect the following types of information:
+                We want to make it clear: <strong>Mathematico does not collect, store, or share any personal information from users.</strong>
+              </p>
+              <p className="text-gray-700 leading-relaxed mb-4">
+                We do not request or access data such as:
               </p>
               <div className="space-y-4">
-                <div className="p-4 bg-blue-50 rounded-lg">
-                  <h4 className="font-semibold text-blue-900 mb-2">Personal Information</h4>
-                  <p className="text-blue-800">Name, email address, phone number, or any details you provide when creating an account.</p>
+                <div className="p-4 bg-red-50 rounded-lg border-l-4 border-red-400">
+                  <h4 className="font-semibold text-red-900 mb-2">Names, email addresses, or phone numbers</h4>
                 </div>
-                <div className="p-4 bg-green-50 rounded-lg">
-                  <h4 className="font-semibold text-green-900 mb-2">Usage Data</h4>
-                  <p className="text-green-800">How you interact with our app (pages visited, features used, time spent).</p>
+                <div className="p-4 bg-red-50 rounded-lg border-l-4 border-red-400">
+                  <h4 className="font-semibold text-red-900 mb-2">Device identifiers, IP addresses, or precise location data</h4>
                 </div>
-                <div className="p-4 bg-purple-50 rounded-lg">
-                  <h4 className="font-semibold text-purple-900 mb-2">Device Information</h4>
-                  <p className="text-purple-800">IP address, browser type, operating system, and device identifiers.</p>
-                </div>
-                <div className="p-4 bg-orange-50 rounded-lg">
-                  <h4 className="font-semibold text-orange-900 mb-2">Cookies & Tracking Data</h4>
-                  <p className="text-orange-800">To personalize and improve your experience.</p>
+                <div className="p-4 bg-red-50 rounded-lg border-l-4 border-red-400">
+                  <h4 className="font-semibold text-red-900 mb-2">Usage analytics or cookies</h4>
                 </div>
               </div>
             </CardContent>
@@ -83,141 +79,83 @@ const Privacy = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                We use the information collected for:
+              <p className="text-gray-700 leading-relaxed">
+                Since we do not collect any personal information, we do not use or process user data for any purpose.
               </p>
-              <ul className="space-y-2 text-gray-700">
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Providing and improving our services.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Sending important updates, notifications, and promotional offers.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Enhancing security and preventing fraud.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Personalizing content and user experience.</span>
-                </li>
-              </ul>
             </CardContent>
           </Card>
 
-          {/* 3. How We Share Your Information */}
+          {/* 3. Data Sharing */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3 text-xl">
                 <Eye className="h-6 w-6 text-purple-600" />
-                3. How We Share Your Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="p-4 bg-blue-50 rounded-lg">
-                  <h4 className="font-semibold text-blue-900 mb-2">Service Providers</h4>
-                  <p className="text-blue-800">With trusted third parties who help us run our app.</p>
-                </div>
-                <div className="p-4 bg-green-50 rounded-lg">
-                  <h4 className="font-semibold text-green-900 mb-2">Legal Requirements</h4>
-                  <p className="text-green-800">When required to comply with laws, regulations, or government requests.</p>
-                </div>
-                <div className="p-4 bg-purple-50 rounded-lg">
-                  <h4 className="font-semibold text-purple-900 mb-2">Business Transfers</h4>
-                  <p className="text-purple-800">If we merge, acquire, or sell, your data may be transferred.</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* 4. Data Security */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3 text-xl">
-                <Database className="h-6 w-6 text-orange-600" />
-                4. Data Security
+                3. Data Sharing
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-700 leading-relaxed">
-                We use industry-standard measures to protect your information from unauthorized access, misuse, or disclosure. However, no system is 100% secure.
+                As no data is collected, no information is shared with third parties.
               </p>
             </CardContent>
           </Card>
 
-          {/* 5. Your Rights */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3 text-xl">
-                <Users className="h-6 w-6 text-indigo-600" />
-                5. Your Rights
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                Depending on your location, you may have the right to:
-              </p>
-              <ul className="space-y-2 text-gray-700">
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Access, update, or delete your personal data.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Withdraw consent for data processing.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span>Opt out of marketing communications.</span>
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          {/* 6. Children's Privacy */}
+          {/* 4. Children's Privacy */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3 text-xl">
                 <AlertTriangle className="h-6 w-6 text-yellow-600" />
-                6. Children's Privacy
+                4. Children's Privacy
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-700 leading-relaxed">
-                Our services are not directed to children under 13 (or the minimum legal age in your country). We do not knowingly collect information from them.
+                The Mathematico app is safe for all age groups. Since we do not collect any personal data, children under 13 (or the minimum legal age in your country) can use the app without risk of personal information being collected.
               </p>
             </CardContent>
           </Card>
 
-          {/* 7. Changes to This Policy */}
+          {/* 5. Data Security */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-xl">
+                <Database className="h-6 w-6 text-orange-600" />
+                5. Data Security
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-700 leading-relaxed">
+                Because we do not collect or store any personal information, there is no risk of your data being exposed or misused.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 6. Changes to This Policy */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3 text-xl">
                 <Calendar className="h-6 w-6 text-teal-600" />
-                7. Changes to This Policy
+                6. Changes to This Policy
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-700 leading-relaxed">
-                We may update this Privacy Policy. Any changes will be posted with a revised "Effective Date."
+                We may update this Privacy Policy in the future. Any updates will be published on this page with a revised Effective Date.
               </p>
             </CardContent>
           </Card>
 
-          {/* 8. Contact Us */}
+          {/* 7. Contact Us */}
           <Card className="bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-3 text-xl">
                 <Mail className="h-6 w-6 text-primary" />
-                8. Contact Us
+                7. Contact Us
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                If you have any questions, please contact us at:
+                If you have any questions about this Privacy Policy or about the Mathematico app, you can contact us at:
               </p>
               <div className="flex items-center gap-3 p-4 bg-white rounded-lg border">
                 <Mail className="h-6 w-6 text-primary" />
@@ -225,7 +163,7 @@ const Privacy = () => {
                   href="mailto:dipanjanchatterjee23@gmail.com"
                   className="text-lg font-medium text-primary hover:underline"
                 >
-                  dipanjanchatterjee23@gmail.com
+                  📧 Email: dipanjanchatterjee23@gmail.com
                 </a>
               </div>
             </CardContent>
