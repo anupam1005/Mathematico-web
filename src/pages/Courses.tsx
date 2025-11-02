@@ -364,7 +364,7 @@ const Courses = () => {
           <div className="bg-gradient-to-r from-primary to-primary/80 rounded-lg p-8 text-center text-white mt-16">
             <h2 className="text-2xl font-bold mb-4">Ready to Start Learning?</h2>
             <p className="text-lg mb-6 opacity-90">
-              Join thousands of students who are already achieving their academic goals.
+              Start your journey to achieving your academic goals.
             </p>
             <Button asChild size="lg" variant="secondary">
               <Link to="/signup">

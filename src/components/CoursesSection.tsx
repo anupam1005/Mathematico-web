@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Users, Star, BookOpen, Calculator, Target } from "lucide-react";
+import { Clock, Users, Star, BookOpen, Calculator } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const courses = [
@@ -103,15 +103,6 @@ export const CoursesSection = () => {
                   : 'border-border shadow-soft'
               }`}
             >
-              {course.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Badge variant="default" className="bg-gradient-accent">
-                    <Target className="h-3 w-3 mr-1" />
-                    Most Popular
-                  </Badge>
-                </div>
-              )}
-              
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-start mb-2">
                   <Badge variant="outline" className="text-xs">

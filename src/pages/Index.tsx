@@ -92,7 +92,7 @@ const Index = () => {
               <span className="block text-accent mt-2">From Basics to JEE Advanced</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-primary-foreground/90 max-w-3xl mx-auto">
-              Join thousands of students who have achieved academic excellence through our comprehensive learning platform.
+              Achieve academic excellence through our comprehensive learning platform.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild variant="default" size="lg" className="text-lg px-8">
@@ -133,7 +133,7 @@ const Index = () => {
       {/* Features Section */}
       <Section 
         title="Why Choose Our Platform" 
-        subtitle="We provide the best learning experience for mathematics students"
+        subtitle="We provide a quality learning experience for mathematics students"
         className="bg-background"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -295,17 +295,17 @@ const Index = () => {
             {
               name: "Rahul Sharma",
               role: "JEE Advanced 2024 - AIR 124",
-              content: "The structured courses and doubt-solving sessions helped me crack JEE Advanced with a great rank. The teachers are phenomenal!"
+              content: "The structured courses and doubt-solving sessions helped me crack JEE Advanced with a great rank. The teachers are excellent!"
             },
             {
               name: "Priya Patel",
               role: "Class 12 Board - 98% in Math",
-              content: "The study materials and practice tests were exactly what I needed to score well in my board exams. Highly recommended!"
+              content: "The study materials and practice tests were exactly what I needed to score well in my board exams."
             },
             {
               name: "Amit Kumar",
               role: "NTSE Scholar",
-              content: "The Olympiad preparation course gave me the edge I needed. The problem-solving techniques are top-notch!"
+              content: "The Olympiad preparation course gave me the edge I needed. The problem-solving techniques are excellent!"
             }
           ].map((testimonial, index) => (
             <div key={index} className="bg-card p-6 rounded-xl border border-border shadow-sm">
@@ -334,11 +334,11 @@ const Index = () => {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Learning?</h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of students who are already achieving their academic goals with us.
+            Start your journey to achieving your academic goals with us.
           </p>
           <Button asChild size="lg" className="text-lg px-8">
             <Link to="/signup">
-              Get Started for Free
+              Get Started
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>

@@ -173,7 +173,7 @@ const About = () => {
             <div className="bg-gradient-to-r from-primary to-primary/80 rounded-lg p-8 text-white">
               <h2 className="text-2xl font-bold mb-4">Ready to Start Learning?</h2>
               <p className="text-lg mb-6 opacity-90">
-                Join thousands of students who are already achieving their academic goals with Mathematico.
+                Start your journey to achieving your academic goals with Mathematico.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a 
@@ -187,7 +187,7 @@ const About = () => {
                   href="/signup"
                   className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-primary transition-colors"
                 >
-                  Get Started Free
+                  Get Started
                 </a>
               </div>
             </div>

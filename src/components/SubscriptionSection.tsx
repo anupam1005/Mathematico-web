@@ -21,7 +21,7 @@ const plans = [
     name: "Premium",
     price: "₹999",
     period: "month", 
-    description: "Most popular for serious students",
+    description: "Designed for serious students",
     features: [
       "Access to 1000+ books",
       "Advanced reading features",
@@ -60,7 +60,7 @@ export const SubscriptionSection = () => {
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Flexible subscription plans to match your learning goals. 
-            Start with a free trial and upgrade anytime.
+            Choose a plan and upgrade anytime.
           </p>
         </div>
 
@@ -74,15 +74,6 @@ export const SubscriptionSection = () => {
                   : 'border-border shadow-soft'
               }`}
             >
-              {plan.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Badge variant="default" className="bg-gradient-accent">
-                    <Star className="h-3 w-3 mr-1" />
-                    Most Popular
-                  </Badge>
-                </div>
-              )}
-              
               <CardHeader className="text-center pb-2">
                 <CardTitle className="text-2xl font-bold text-primary">
                   {plan.name}
@@ -122,7 +113,7 @@ export const SubscriptionSection = () => {
         {/* Additional Info */}
         <div className="text-center mt-12 space-y-4">
           <p className="text-muted-foreground">
-            All plans include a 7-day free trial • Cancel anytime • No hidden fees
+            Cancel anytime • No hidden fees
           </p>
           <div className="flex justify-center space-x-8 text-sm text-muted-foreground">
             <span>✓ Secure payments</span>
